@@ -1,8 +1,6 @@
 # DiscoveryVehicle
 Projekt für WRO 2015 - Autonomes Fahrzeug mittels leJOS
 
-Software
-
 1. Grundlegende Technologien und Komponenten
 
 Unser Roboter basiert auf leJOS (NXJ 0.9.1 beta). leJOS ist ein freies Betriebssystem für den NXT auf Basis von Java (realisert mittels TinyVM). leJOS erlaubt die Programmierung von Programmen für den NXT (bzw. RCX und EV3) auf Basis von Java. Dazu wurden einige Kernelemente für die schwächere Leistung des NXT und dessen geringeren Speichers gegenüber regulären Computern portiert. Gegenüber der originalen NXT-Firmware, welche die Programmierung mittels NXT-G vorsieht, einer abgewandelten und angepassten Version von LabView, bietet leJOS einige Vorteile. Neben den Vorteilen von Java als Programmiersprache, wie Objektorientierung und einer nahezu uneingeschränkten Plattformunabhängigkeit, stellt leJOS einige umfangreiche Bibliotheken bereit, welche die Implementierung von komplexen Themen und Methoden wie Navigation, Odometrie oder Mapping erheblich erleichtern.
@@ -15,141 +13,11 @@ Unsere Entwicklungsumgebung setzt sich aus Git zur Versionsverwaltung, sowie Ecl
 
 Eine Spiegelung unseres Quellcodes befindet sich frei verfügbar auf [github.com/Fit-AG](https://github.com/Fit-AG) unter der MIT-Lizenz, diese Lizenz erlaubt im Wesentlichen die uneingeschränkte Nutzung und Veränderung von Software, sofern jeder Kopie der Urheberrechtsvermerk beigelegt wird. 
 
-2. Von Schränken und Klassen - Ein Crash-Kurs in Objektorientierung und Java
-
-In Java besteht alles aus Objekten und Methoden, denn Java ist eine objektorientierte Sprache.
-
-Um zu verstehen was eine Klasse ist, lässt sich diese relativ einfach als Schrank in einem Möbelprospekt vorstellen. Im Prospekt findest du verschiedene Schränke, die angebotenen Schränke sind Klassen. Gefällt dir Schrank gehst du zum Möbelhaus und sagst den Verkäufern: "Hey, der Schrank gefällt mir! Den will ich!". Anschließend händigen dir die Verkäufer den Schrank aus, dieser Schrank den du jetzt hast ist ein Objekt. 
-
-Wie du daheim feststellst, hat der Schrank Türen und Schubladen. Diese Schubladen sind Methoden, wenn du eine öffnest findest du meist Gerümpel und Socken in ihnen. Also wenn du eine Methode ausführst, also ein Schublade öffnest, gibt dir diese Methode z.B. ein paar Socken zurück.
-
-Die Socken sind dabei auch wieder Objekte, da auch sie Methoden besitzen die du ausführen kannst, z.B. sie Anziehen oder Verschenken. Aber das ist eine andere Geschichte und ist für das Grundverständnis erstmal obsolet. 
-
-Aufjedenfall sind diese Socken variabel, denn in der Schublade findest du manchmal gelbe, manchmal grüne und leider viel zu oft einfach zu zerrissene Socken.
-
-Wie du leider recht schnell feststellen musstest, war der Schrank ein Fehlkauf. So fehlt eine Tür und jeder deiner Freunde, der bei dir in der Wohnung spaziert kann einfach in den Schrank hineinschauen und Socken oder Gerümpel aus ihm herausnehmen und klauen. Also diese Freunde (ob diese Sockendiebe wahre Freunde sind bezweifle ich), können einfach auf die Variablen zugreifen, sie verändern und entfernen - Und das ohne auch nur eine Schublade zu öffnen!
-
-Ein solches Szenario ist nicht nur in deiner Wohnung unvorteilhaft, sondern auch in der Objektorientierung und sollte daher vermieden werden.
-
-Definieren wir jetzt mal die Klasse Schrank:
-
-	public class Schrank{
-
-		
-
-		private Socke schublade;
-
-		public Geruempel kaputteTuer;
-
-		public Socke oeffneSchublade(){
-
-			return schublade;
-
-}
-
-	}
-
-1. Datentypen
-
-Letztendlich hast du aber wie bereits erwähnt nicht nur Socken in deinem Schrank, sondern auch allerlei Gerümpel. Und als Gerümpel zählt alles von Glühbirnen, Zetteln, Wollknäuel bis hinzu zahlreichen Kleingeldmünzen (welche vermutlich eine beachtliche Summe ergeben müssten). All dieses Gerümpel besteht aus verschiedenen Datentypen oder manche repräsentieren sogar wie Socken eigene Objekte.
-
-In Java haben wir verschiedene Datentypen, die wichtigsten für dieses Projekt zähle ich in der folgenden Tabelle (Achtung Vereinfachte Darstellung!) auf:
-
-<table>
-  <tr>
-    <td>Datentyp</td>
-    <td>Beschreibung</td>
-    <td>Beispiel</td>
-  </tr>
-  <tr>
-    <td>boolean</td>
-    <td>Ein einfacher Wahrheitswert
-Entweder wahr oder falsch</td>
-    <td>boolean b = true;
-boolean b = false;</td>
-  </tr>
-  <tr>
-    <td>int</td>
-    <td>Eine ganze Zahl
-</td>
-    <td>int i = 5;
-int i = -3;</td>
-  </tr>
-  <tr>
-    <td>float</td>
-    <td>Eine rationale Zahl</td>
-    <td>float f = 4.3f;
-float f = -3.2f;</td>
-  </tr>
-  <tr>
-    <td>String</td>
-    <td>Eine Zeichenkette</td>
-    <td>String s = "Ich mag Schränke!";</td>
-  </tr>
-</table>
-
-
-Wie man in der Tabelle sehen kann, werden Variablen über den Namen des Datentyps und einen **eindeutigen **Bezeichner erstellt.
-
-2. Objekte
-
-Soweit so gut, aber was ist nun mit Objekten? Eine Objekt kann wie oben bereits beschrieben von einer Klasse gebildet werden, besitzt Variablen (z.B. Farbe oder Form) und Methoden, auf die andere Objekte zugreifen können. Um ein Objekt von einer Klasse zu bilden, müssen wir den Konstruktor aufrufen, dies ist eine spezielle Methode die über den Klassennamen aufgerufen werden kann und dem Schlüsselwort "new". Also wenn wir nun das Objekt Schrank haben wollen, dann bilden wir ein neues Objekt von der Klasse Schrank mit:
-
-	Schrank schrank = new Schrank();
-
-Dabei wird das Objekt quasi wie eine Variable mit dem Klassennamen und einem Bezeichner erstellt. 
-
-In der Klammer können Variablen definitiert werden, die an den Konstruktor übergeben werden. Ein Aufruf eines Konstruktor mit Variablen sieht dann zum Beispiel so aus:
-
-	Schrank schrank = new Schrank("blau");
-
-Da der Lagerlogist vom Möbelhaus aber nicht weiß, was er mit diesen Variablen anfangen soll, kann er unsere Bestellung nicht bearbeiten. Er muss also diese Variablen auch entgegen nehmen und deren Datentyp bzw. deren Klasse kennen. Wir dürfen ihm also nicht einfach Variablen nennen, die er nicht kennt. Eine valider Konstruktor für den Schrank sähe dann zum Beispiel so aus:
-
-private String farbe = "ich habe keine farbe";	
-
-	public Schrank(String farbe){
-
-		this.farbe = farbe;
-
-	}
-
-In diesem Konstruktor setzen wir also die Variable *farbe *auf die übergebene Variable *farbe. *Das Schlüsselwort *this *referenziert nur zum eigenen Objekt, wir benötigen dies, da wir auf die Variable des Objekts zugreifen und diese in diesem Beispiel den gleichen Namen wie im Konstruktor trägt.
-
-Nun sind wir aber doch sehr wählerisch und möchten die Farbe des Schranks ändern. Dazu erstellen wir eine Methode:
-
-	public void setzeSchrankFarbe(String farbe){
-
-		this.farbe = farbe;
-
-	}
-
-Diese Methode unterscheidet sich nicht stark vom Konstruktor, es wird über sie die Variable *farbe* übergeben und gesetzt. Aber was bedeutet das Schlüsselwort *void*? Dazu verwenden wir am besten ein weiteres kleines Beispiel.
-
-Angenommen wir möchten nun wissen, welche Farbe der Schrank hat, um diese zu erfahren schreiben wir die Methode *erhalteFarbe()*:
-
-public String erhalteFarbe(){
-
-return farbe;
-
-}
-
-Wie wir erahnen können, gibt die Methode mittels dem Schlüsselwort *return *die Farbe zurück. Außerdem wurde hier das *void* durch den Datentyp *String *ersetzt, dadurch macht die Methode uns klar, dass sie einen String zurückgibt, denn anders hätten wir vermutlich dasselbe Problem wie der Lagerlogist. *this *ist hier nicht notwendig, da die farbe in dieser Methode nur einmal existiert, und Methoden können nicht auf die Variablen von anderen Methoden zugreifen.
-
-3. Sichtbarkeit
-
-In allen Beispielen hatten wir bisher Schlüsselwörter wie *public *und *private*, aber was bedeuten diese? Diese Schlüsselwörter geben die Sichtbarkeit der Variablen, Methoden und Klassen an.
-
-* **public:** Sichtbar für alle, die auf das Objekt zugreifen können (also deine diebischen Freunde, die sich an den **sichtbaren **Socken deines Schranks vergreifen)!
-
-* **private:** Unsichtbar/**geschützt**, auf diese Variablen/Methoden können nur die Methoden der eigenen Klasse zugreifen!
-
-* **static: **Methoden und Variablen, auf die auch **ohne Objekt** der Klasse zugegriffen werden können!
-
-3. Aufbau, Projektstruktur und Abhängigkeiten
+2. Aufbau, Projektstruktur und Abhängigkeiten
 
 Das Projekt gliedert sich in mehrere Komponenten, die folgende Grafik beschreibt deren Struktur:
 
-![image alt text](image_0.png)
+![image alt text](img/image_0.png)
 
 Dabei wird das Projekt *"DiscoveryVehicle" *in drei Komponenten untergliedert: *Android*, *NXT *und *Common*. Jede Komponente ist eigenständig und kann theoretisch alleine stehen, jedoch besitzen die Komponenten *Android *und *NXT *eine Abhängigkeit *(unter Entwicklern engl. “dependency”)* von der *Common*-Komponente, beinhalten also dessen Code. Jede Komponente enthält Unterprojekte bzw. Pakete. 
 
@@ -171,7 +39,7 @@ Die *NXT*-Komponente beinhaltet unser eigentliches Programm *"DiscoveryVehicle" 
 
 Das Programm besteht aus drei nicht näher zugeordneten Klassen und fünf untergeordneten Ordnern (in Java "Pakete" genannt).
 
-![image alt text](image_1.png)
+![image alt text](img/image_1.png)
 
 Dabei dient die Klasse DiscoveryVehicle als Hauptklasse, sie verwaltet alle wichtigen Objekten und dient dem Programm als Einstiegspunkt.
 
@@ -195,7 +63,7 @@ Auf einige wichtigen Pakete und Klassen werde ich in den folgenden Kapiteln noch
 
 Über die Configuration Klasse können einfach Änderungen an Variablen vorgenommen werden, ohne sich durch den gesamten Sourcecode quälen zu müssen. Dafür enthält die Configuration Klasse einige statische Variablen. Durch das Ändern der Werte lassen sich schnell unterschiedliche Wirkungen  im gesamten Programm erzielen.
 
-![image alt text](image_2.png)
+![image alt text](img/image_2.png)
 
 Das Ändern der Werte findet auf der rechten Seite des = Operators statt. Gelöscht werden sollten die Variablen nicht, da auf sie im gesamten Programm zugegriffen werden kann und so eine tiefgreifende Änderung notwendig wäre, um wirklich alle Aufrufe der Variablen zu finden und zu entfernen.
 
@@ -223,7 +91,7 @@ public void store(Data data);		- Speichert eine Data Objekt, quasi eine Variable
 
 Kernelement des Monitor Package ist die ScreenMonitor Klasse. Sie stellt die Lognachrichten und Data Objekte auf dem Display dar.
 
-![image alt text](image_3.jpg)
+![image alt text](img/image_3.jpg)
 
 4. **Verhaltensweisen - Behavior-based robotics**
 
@@ -237,7 +105,7 @@ In leJOS haben wir das Glück, dass uns eine [Behavior-Bibliothek](http://www.le
 
 Die folgende Grafik stellt ein Behavior basiertes Programm nochmal dar:
 
-![image alt text](image_4.jpg)Quelle: lejos.org
+![image alt text](img/image_4.jpg)Quelle: lejos.org
 
 5. Die Android Komponente
 
@@ -246,4 +114,4 @@ Die Android Komponente enthält unsere App. Sie hängt von der *pccomm *Biblioth
 Die App dürfte mit allen neueren Android Versionen kompatibel sein. Wie wir im Laufe des Projekts feststellen mussten, besitzt das Herstellen der Verbindung oft einige Macken und erfordert mehrere Versuche (~4-20). Dieses Problem kann aber relativ leicht gelöst werden, indem das aktive Pairing des Smartphones und NXT vor jedem Verbindungsaufbau entfernt wird.
 
 Im folgenden Screenshot zeigen wir das Aussehen der App auf einem Nexus 4:
-![image alt text](image_5.jpg)
+![image alt text](img/image_5.jpg)
