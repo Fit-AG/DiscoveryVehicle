@@ -1,7 +1,7 @@
 # DiscoveryVehicle
 Projekt für WRO 2015 - Autonomes Fahrzeug mittels leJOS
 
-1. Grundlegende Technologien und Komponenten
+##1. Grundlegende Technologien und Komponenten
 
 Unser Roboter basiert auf leJOS (NXJ 0.9.1 beta). leJOS ist ein freies Betriebssystem für den NXT auf Basis von Java (realisert mittels TinyVM). leJOS erlaubt die Programmierung von Programmen für den NXT (bzw. RCX und EV3) auf Basis von Java. Dazu wurden einige Kernelemente für die schwächere Leistung des NXT und dessen geringeren Speichers gegenüber regulären Computern portiert. Gegenüber der originalen NXT-Firmware, welche die Programmierung mittels NXT-G vorsieht, einer abgewandelten und angepassten Version von LabView, bietet leJOS einige Vorteile. Neben den Vorteilen von Java als Programmiersprache, wie Objektorientierung und einer nahezu uneingeschränkten Plattformunabhängigkeit, stellt leJOS einige umfangreiche Bibliotheken bereit, welche die Implementierung von komplexen Themen und Methoden wie Navigation, Odometrie oder Mapping erheblich erleichtern.
 
@@ -13,7 +13,7 @@ Unsere Entwicklungsumgebung setzt sich aus Git zur Versionsverwaltung, sowie Ecl
 
 Eine Spiegelung unseres Quellcodes befindet sich frei verfügbar auf [github.com/Fit-AG](https://github.com/Fit-AG) unter der MIT-Lizenz, diese Lizenz erlaubt im Wesentlichen die uneingeschränkte Nutzung und Veränderung von Software, sofern jeder Kopie der Urheberrechtsvermerk beigelegt wird. 
 
-2. Aufbau, Projektstruktur und Abhängigkeiten
+##2. Aufbau, Projektstruktur und Abhängigkeiten
 
 Das Projekt gliedert sich in mehrere Komponenten, die folgende Grafik beschreibt deren Struktur:
 
@@ -31,11 +31,11 @@ Desweiteren beginnt der eigentliche Sourcecode jedes Unterprojekts mit der Ordne
 
 Diese Struktur lässt sich in der *Android*-Komponente jedoch erst im Unterordner */app/ *finden.
 
-4. Die NXT-Komponente
+## 3. Die NXT-Komponente
 
 Die *NXT*-Komponente beinhaltet unser eigentliches Programm *"DiscoveryVehicle" *für den NXT und übernimmt die komplette Steuerung des Roboters. Sie implementiert die Klassenbibliothek leJOS NXJ. Demnach erfüllt die Komponente das Ziel, den Roboter selbständig und intelligent durch ein Areal zu steuern. Diese Steuerung wird mithilfe einer Art “Mäander-Algorithmus” realisiert. Zusätzlich werden mithilfe unseres selbstentwickelten Feuchtigkeitssensors regelmäßig Bodenmessungen durchgeführt und Funde von Wasser akustisch bekanntgegeben. Zusätzlich wird eine Benachrichtigung an unsere App mittels Bluetooth übermittelt. In diesem Kapitel werde ich näher auf die Modifikation des Programms und dessen Aufbau eingehen.
 
-1. Aufbau und Funktionen
+###A. Aufbau und Funktionen
 
 Das Programm besteht aus drei nicht näher zugeordneten Klassen und fünf untergeordneten Ordnern (in Java "Pakete" genannt).
 
@@ -59,7 +59,7 @@ Das Behaviors Package enthält verschiedene Verhaltensweisen, die der Roboter be
 
 Auf einige wichtigen Pakete und Klassen werde ich in den folgenden Kapiteln noch tiefer eingehen.
 
-2. Modifkation bestehender Parameter und Werte - Die Configuration Klasse
+###B. Modifkation bestehender Parameter und Werte - Die Configuration Klasse
 
 Über die Configuration Klasse können einfach Änderungen an Variablen vorgenommen werden, ohne sich durch den gesamten Sourcecode quälen zu müssen. Dafür enthält die Configuration Klasse einige statische Variablen. Durch das Ändern der Werte lassen sich schnell unterschiedliche Wirkungen  im gesamten Programm erzielen.
 
@@ -75,7 +75,7 @@ Auf eine der Konstanten kann folgendermaßen aus dem Programmablauf heraus zugeg
 
 private float trackWidth = Configuration.TRACK_WIDTH;
 
-3. **Programmabläufe überwachen - Das Monitor Package**
+###C. **Programmabläufe überwachen - Das Monitor Package**
 
 Um Programmabläufe eleganter überwachen zu können, entwickelten wir das Monitor Package. Monitore dienen der Überwachung, und es kann verschiedene Arten von Monitoren geben. Alle Monitore bauen auf dem Monitor Interface auf, ein Monitor muss dieses Interface implementieren. Ein Interface ist keine Klasse, sondern beschreibt nur die Methoden, die eine Klasse implementieren muss - Also ein Interface ist eine Art Vorlage.
 
@@ -93,7 +93,7 @@ Kernelement des Monitor Package ist die ScreenMonitor Klasse. Sie stellt die Log
 
 ![image alt text](img/image_3.jpg)
 
-4. **Verhaltensweisen - Behavior-based robotics**
+###D. **Verhaltensweisen - Behavior-based robotics**
 
 Normalerweise arbeiten viele Roboter mit einfachen Schleifen. Dabei durchläuft der Roboter immer wieder eine Schleife und arbeitet mithilfe von strikten WENN und DANN Abfragen Aktionen und Verhaltensweisen ab. Durch einen solchen Aufbau entsteht nicht nur ein ziemlich unübersichtliches Programm (genannt "Spaghetti-Code"), sondern bereits kleine Änderungen machen zahlreiche Anpassungen in anderen WENN und DANN Abfragen nötig.
 
@@ -107,7 +107,7 @@ Die folgende Grafik stellt ein Behavior basiertes Programm nochmal dar:
 
 ![image alt text](img/image_4.jpg)Quelle: lejos.org
 
-5. Die Android Komponente
+## 4. Die Android Komponente
 
 Die Android Komponente enthält unsere App. Sie hängt von der *pccomm *Bibliothek von leJOS als Abhängigkeit ab, diese Bibliothek wird dafür benötigt, dass beispielsweise ein Computer eine Verbindung zum NXT herstellen kann. Die App stellt mittels Bluetooth und unserer *Communication *Schnittstelle eine Verbindung zum NXT her und misst mithilfe des im Smartphone eingebauten Magnetometers den magnetischen Nordpol (bzw. auf der Südhalbkugel den magnetischen Südpol). Die App sendet bei Veränderungen regelmäßig die aktuellen Werte des Sensors an den NXT.
 
