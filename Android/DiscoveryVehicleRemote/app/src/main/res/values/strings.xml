@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">DiscoveryVehicle-Remote</string>
+
+    <string name="conn_disconnected">Nicht verbunden</string>
+    <string name="conn_connected">Verbunden</string>
+    <string name="conn_failed">Verbindung fehlgeschlagen!</string>
+
+    <string name="btAction_connect">Verbinden</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="conn_pending">Verbindung wird aufgebaut...</string>
+    <string name="conn_aborted">Verbindung abgebrochen!</string>
+</resources>
