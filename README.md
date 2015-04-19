@@ -19,21 +19,21 @@ Das Projekt gliedert sich in mehrere Komponenten, die folgende Grafik beschreibt
 
 ![image alt text](img/image_0.png)
 
-Dabei wird das Projekt *"DiscoveryVehicle" *in drei Komponenten untergliedert: *Android*, *NXT *und *Common*. Jede Komponente ist eigenständig und kann theoretisch alleine stehen, jedoch besitzen die Komponenten *Android *und *NXT *eine Abhängigkeit *(unter Entwicklern engl. “dependency”)* von der *Common*-Komponente, beinhalten also dessen Code. Jede Komponente enthält Unterprojekte bzw. Pakete. 
+Dabei wird das Projekt *"DiscoveryVehicle"* in drei Komponenten untergliedert: *Android*, *NXT* und *Common*. Jede Komponente ist eigenständig und kann theoretisch alleine stehen, jedoch besitzen die Komponenten *Android* und *NXT* eine Abhängigkeit *(unter Entwicklern engl. “dependency”)* von der *Common*-Komponente, beinhalten also dessen Code. Jede Komponente enthält Unterprojekte bzw. Pakete. 
 
-Die *Android*-Komponente beinhaltet unsere App *"DiscoveryVehicleRemote"*, welche die *pccomm *Bibliothek von leJOS als Abhängigkeit besitzt. Die *NXT*-Komponente beinhaltet unser eigentliches Programm *“DiscoveryVehicle” *und die *Common*-Komponente beinhaltet unsere *Communication*-Schnittstelle, welche mit Hilfe einer einfachen API eine einheitliche Kommunikation zwischen verschiedenen parallel ausgeführten Komponenten ermöglicht, also einfach nur dafür sorgt, dass unsere App und unser Roboter miteinander kommunizieren können.
+Die *Android*-Komponente beinhaltet unsere App *"DiscoveryVehicleRemote"*, welche die *pccomm* Bibliothek von leJOS als Abhängigkeit besitzt. Die *NXT*-Komponente beinhaltet unser eigentliches Programm *“DiscoveryVehicle”* und die *Common*-Komponente beinhaltet unsere *Communication*-Schnittstelle, welche mit Hilfe einer einfachen API eine einheitliche Kommunikation zwischen verschiedenen parallel ausgeführten Komponenten ermöglicht, also einfach nur dafür sorgt, dass unsere App und unser Roboter miteinander kommunizieren können.
 
 Diese Schnittstelle basiert auf JSON, einem kompakten Datenformats zum Zweck des Datenaustauschs zwischen Anwendungen. JSON wurde durch [minimal-json](https://github.com/ralfstx/minimal-json), einem freien unter MIT-Lizenz stehenden hochperformanten und kleinen JSON-Parser implementiert. Aufgrund einer kleinen Inkompatibilität zu leJOS, musste der Parser jedoch für den NXT etwas angepasst werden.
 
 Desweiteren beginnt der eigentliche Sourcecode jedes Unterprojekts mit der Ordnerstruktur:
 
-*src/main/java/de/ohg/fitag/ *Komponente */* Unterprojekt
+*src/main/java/de/ohg/fitag/* Komponente */* Unterprojekt
 
-Diese Struktur lässt sich in der *Android*-Komponente jedoch erst im Unterordner */app/ *finden.
+Diese Struktur lässt sich in der *Android*-Komponente jedoch erst im Unterordner */app/* finden.
 
 ## 3. Die NXT-Komponente
 
-Die *NXT*-Komponente beinhaltet unser eigentliches Programm *"DiscoveryVehicle" *für den NXT und übernimmt die komplette Steuerung des Roboters. Sie implementiert die Klassenbibliothek leJOS NXJ. Demnach erfüllt die Komponente das Ziel, den Roboter selbständig und intelligent durch ein Areal zu steuern. Diese Steuerung wird mithilfe einer Art “Mäander-Algorithmus” realisiert. Zusätzlich werden mithilfe unseres selbstentwickelten Feuchtigkeitssensors regelmäßig Bodenmessungen durchgeführt und Funde von Wasser akustisch bekanntgegeben. Zusätzlich wird eine Benachrichtigung an unsere App mittels Bluetooth übermittelt. In diesem Kapitel werde ich näher auf die Modifikation des Programms und dessen Aufbau eingehen.
+Die *NXT*-Komponente beinhaltet unser eigentliches Programm *"DiscoveryVehicle"* für den NXT und übernimmt die komplette Steuerung des Roboters. Sie implementiert die Klassenbibliothek leJOS NXJ. Demnach erfüllt die Komponente das Ziel, den Roboter selbständig und intelligent durch ein Areal zu steuern. Diese Steuerung wird mithilfe einer Art “Mäander-Algorithmus” realisiert. Zusätzlich werden mithilfe unseres selbstentwickelten Feuchtigkeitssensors regelmäßig Bodenmessungen durchgeführt und Funde von Wasser akustisch bekanntgegeben. Zusätzlich wird eine Benachrichtigung an unsere App mittels Bluetooth übermittelt. In diesem Kapitel werde ich näher auf die Modifikation des Programms und dessen Aufbau eingehen.
 
 ###A. Aufbau und Funktionen
 
@@ -82,12 +82,13 @@ Um Programmabläufe eleganter überwachen zu können, entwickelten wir das Monit
 Das Monitor Interface sieht folgende Methoden vor:
 
 	
-
-	public void log(String message);	- Loggt eine Nachricht, die der Monitor verwalten kann
+```java
+public void log(String message);	- Loggt eine Nachricht, die der Monitor verwalten kann
 
 public void store(Data data);		- Speichert eine Data Objekt, quasi eine Variable
 
-	public Data get(String key);		- Gibt ein vorhandenes Data Objekt zurück
+public Data get(String key);		- Gibt ein vorhandenes Data Objekt zurück
+```
 
 Kernelement des Monitor Package ist die ScreenMonitor Klasse. Sie stellt die Lognachrichten und Data Objekte auf dem Display dar.
 
@@ -109,7 +110,7 @@ Die folgende Grafik stellt ein Behavior basiertes Programm nochmal dar:
 
 ## 4. Die Android Komponente
 
-Die Android Komponente enthält unsere App. Sie hängt von der *pccomm *Bibliothek von leJOS als Abhängigkeit ab, diese Bibliothek wird dafür benötigt, dass beispielsweise ein Computer eine Verbindung zum NXT herstellen kann. Die App stellt mittels Bluetooth und unserer *Communication *Schnittstelle eine Verbindung zum NXT her und misst mithilfe des im Smartphone eingebauten Magnetometers den magnetischen Nordpol (bzw. auf der Südhalbkugel den magnetischen Südpol). Die App sendet bei Veränderungen regelmäßig die aktuellen Werte des Sensors an den NXT.
+Die Android Komponente enthält unsere App. Sie hängt von der *pccomm* Bibliothek von leJOS als Abhängigkeit ab, diese Bibliothek wird dafür benötigt, dass beispielsweise ein Computer eine Verbindung zum NXT herstellen kann. Die App stellt mittels Bluetooth und unserer *Communication* Schnittstelle eine Verbindung zum NXT her und misst mithilfe des im Smartphone eingebauten Magnetometers den magnetischen Nordpol (bzw. auf der Südhalbkugel den magnetischen Südpol). Die App sendet bei Veränderungen regelmäßig die aktuellen Werte des Sensors an den NXT.
 
 Die App dürfte mit allen neueren Android Versionen kompatibel sein. Wie wir im Laufe des Projekts feststellen mussten, besitzt das Herstellen der Verbindung oft einige Macken und erfordert mehrere Versuche (~4-20). Dieses Problem kann aber relativ leicht gelöst werden, indem das aktive Pairing des Smartphones und NXT vor jedem Verbindungsaufbau entfernt wird.
 
