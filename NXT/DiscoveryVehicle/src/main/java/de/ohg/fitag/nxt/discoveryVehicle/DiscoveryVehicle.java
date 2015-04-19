@@ -44,14 +44,13 @@ public class DiscoveryVehicle{
 			e.printStackTrace();
 		}
 
-    	pilot = new CompassPilot(Configuration.WHEEL_DIAMETER, Configuration.TRACK_WIDTH, Configuration.MOTOR_LEFT, Configuration.MOTOR_RIGHT);
+    	pilot = new DifferentialPilot(Configuration.WHEEL_DIAMETER, Configuration.TRACK_WIDTH, Configuration.MOTOR_LEFT, Configuration.MOTOR_RIGHT);
     	
-    	
-//    	arbitrator = new Arbitrator(new Behavior[]{
-//    			new DriveForward(),
-//    			new ObjectDetection(new UltrasonicSensor(Configuration.SENSOR_OBJECT_DETECTION))
-//    	});
-//    	arbitrator.start();
+    	arbitrator = new Arbitrator(new Behavior[]{
+    			new DriveForward(),
+    			new ObjectDetection(new UltrasonicSensor(Configuration.SENSOR_OBJECT_DETECTION))
+    	});
+    	arbitrator.start();
     }
     
     public static Monitor getMonitor(){

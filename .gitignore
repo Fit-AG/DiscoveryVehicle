@@ -5,6 +5,7 @@
 *.pydevproject
 .metadata
 .gradle
+.recommenders
 bin/
 tmp/
 *.tmp
