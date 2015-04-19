@@ -1,4 +1,4 @@
-![image alt text](img/logo.jpg)
+![image alt text](.img/logo.jpg)
 # DiscoveryVehicle
 Projekt für WRO 2015 - Autonomes Fahrzeug mittels leJOS
 
@@ -18,7 +18,7 @@ Eine Spiegelung unseres Quellcodes befindet sich frei verfügbar auf [github.com
 
 Das Projekt gliedert sich in mehrere Komponenten, die folgende Grafik beschreibt deren Struktur:
 
-![image alt text](img/image_0.png)
+![image alt text](.img/image_0.png)
 
 Dabei wird das Projekt *"DiscoveryVehicle"* in drei Komponenten untergliedert: *Android*, *NXT* und *Common*. Jede Komponente ist eigenständig und kann theoretisch alleine stehen, jedoch besitzen die Komponenten *Android* und *NXT* eine Abhängigkeit *(unter Entwicklern engl. “dependency”)* von der *Common*-Komponente, beinhalten also dessen Code. Jede Komponente enthält Unterprojekte bzw. Pakete. 
 
@@ -40,7 +40,7 @@ Die *NXT*-Komponente beinhaltet unser eigentliches Programm *"DiscoveryVehicle"*
 
 Das Programm besteht aus drei nicht näher zugeordneten Klassen und fünf untergeordneten Ordnern (in Java "Pakete" genannt).
 
-![image alt text](img/image_1.png)
+![image alt text](.img/image_1.png)
 
 Dabei dient die Klasse DiscoveryVehicle als Hauptklasse, sie verwaltet alle wichtigen Objekten und dient dem Programm als Einstiegspunkt.
 
@@ -64,7 +64,7 @@ Auf einige wichtigen Pakete und Klassen werde ich in den folgenden Kapiteln noch
 
 Über die Configuration Klasse können einfach Änderungen an Variablen vorgenommen werden, ohne sich durch den gesamten Sourcecode quälen zu müssen. Dafür enthält die Configuration Klasse einige statische Variablen. Durch das Ändern der Werte lassen sich schnell unterschiedliche Wirkungen  im gesamten Programm erzielen.
 
-![image alt text](img/image_2.png)
+![image alt text](.img/image_2.png)
 
 Das Ändern der Werte findet auf der rechten Seite des = Operators statt. Gelöscht werden sollten die Variablen nicht, da auf sie im gesamten Programm zugegriffen werden kann und so eine tiefgreifende Änderung notwendig wäre, um wirklich alle Aufrufe der Variablen zu finden und zu entfernen.
 
@@ -93,7 +93,7 @@ public Data get(String key);		- Gibt ein vorhandenes Data Objekt zurück
 
 Kernelement des Monitor Package ist die ScreenMonitor Klasse. Sie stellt die Lognachrichten und Data Objekte auf dem Display dar.
 
-![image alt text](img/image_3.jpg)
+![image alt text](.img/image_3.jpg)
 
 ###D. **Verhaltensweisen - Behavior-based robotics**
 
@@ -107,7 +107,7 @@ In leJOS haben wir das Glück, dass uns eine [Behavior-Bibliothek](http://www.le
 
 Die folgende Grafik stellt ein Behavior basiertes Programm nochmal dar:
 
-![image alt text](img/image_4.jpg)Quelle: lejos.org
+![image alt text](.img/image_4.jpg)Quelle: lejos.org
 
 ## 4. Die Android Komponente
 
@@ -116,4 +116,4 @@ Die Android Komponente enthält unsere App. Sie hängt von der *pccomm* Biblioth
 Die App dürfte mit allen neueren Android Versionen kompatibel sein. Wie wir im Laufe des Projekts feststellen mussten, besitzt das Herstellen der Verbindung oft einige Macken und erfordert mehrere Versuche (~4-20). Dieses Problem kann aber relativ leicht gelöst werden, indem das aktive Pairing des Smartphones und NXT vor jedem Verbindungsaufbau entfernt wird.
 
 Im folgenden Screenshot zeigen wir das Aussehen der App auf einem Nexus 4:
-![image alt text](img/image_5.jpg)
+![image alt text](.img/image_5.jpg)
