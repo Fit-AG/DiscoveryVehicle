@@ -1,5 +1,6 @@
+![image alt text](img/logo.jpg)
 # DiscoveryVehicle
-Projekt für WRO 2015 - Autonomes Fahrzeug mittels leJOS ![image alt text](img/logo.jpg)
+Projekt für WRO 2015 - Autonomes Fahrzeug mittels leJOS
 
 ##1. Grundlegende Technologien und Komponenten
 
