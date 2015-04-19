@@ -9,12 +9,7 @@ import android.util.Log;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import de.ohg.landau.lejos.communication.BluetoothCommunicationManager;
-import de.ohg.landau.lejos.communication.CommunicationManager;
-import de.ohg.landau.lejos.communication.DataMessage;
-import de.ohg.landau.lejos.communication.ErrorMessage;
-import de.ohg.landau.lejos.communication.Message;
-import de.ohg.landau.lejos.communication.MessageObserver;
+import de.ohg.fitag.common.communication.*;
 import lejos.pc.comm.NXTComm;
 import lejos.pc.comm.NXTCommLogListener;
 import lejos.pc.comm.NXTConnector;
