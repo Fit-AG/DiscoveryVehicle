@@ -27,9 +27,9 @@ Die *Android*-Komponente beinhaltet unsere App *"DiscoveryVehicleRemote"*, welch
 Diese Schnittstelle basiert auf JSON, einem kompakten Datenformats zum Zweck des Datenaustauschs zwischen Anwendungen. JSON wurde durch [minimal-json](https://github.com/ralfstx/minimal-json), einem freien unter MIT-Lizenz stehenden hochperformanten und kleinen JSON-Parser implementiert. Aufgrund einer kleinen Inkompatibilität zu leJOS, musste der Parser jedoch für den NXT etwas angepasst werden.
 
 Desweiteren beginnt der eigentliche Sourcecode jedes Unterprojekts mit der Ordnerstruktur:
-
+```
 *src/main/java/de/ohg/fitag/* Komponente */* Unterprojekt
-
+```
 Diese Struktur lässt sich in der *Android*-Komponente jedoch erst im Unterordner */app/* finden.
 
 ## 3. Die NXT-Komponente
