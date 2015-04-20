@@ -113,7 +113,7 @@ Die folgende Grafik stellt ein Behavior basiertes Programm nochmal dar:
 
 Die Android Komponente enthält unsere App. Sie hängt von der *pccomm* Bibliothek von leJOS als Abhängigkeit ab, diese Bibliothek wird dafür benötigt, dass beispielsweise ein Computer eine Verbindung zum NXT herstellen kann. Die App stellt mittels Bluetooth und unserer *Communication* Schnittstelle eine Verbindung zum NXT her und misst mithilfe des im Smartphone eingebauten Magnetometers den magnetischen Nordpol (bzw. auf der Südhalbkugel den magnetischen Südpol). Die App sendet bei Veränderungen regelmäßig die aktuellen Werte des Sensors an den NXT.
 
-Die App dürfte mit allen neueren Android Versionen kompatibel sein. Wie wir im Laufe des Projekts feststellen mussten, besitzt das Herstellen der Verbindung oft einige Macken und erfordert mehrere Versuche (~4-20). Dieses Problem kann aber relativ leicht gelöst werden, indem das aktive Pairing des Smartphones und NXT vor jedem Verbindungsaufbau entfernt wird.
+Die App dürfte mit allen neueren Android Versionen kompatibel sein. Wie wir im Laufe des Projekts feststellen mussten, besitzt das Herstellen der Verbindung manchmal einige Macken und erfordert mehrere Versuche (~4-20). Dieses Problem kann aber relativ leicht gelöst werden, indem das aktive Pairing des Smartphones und NXT vor jedem Verbindungsaufbau entfernt wird.
 
 Im folgenden Screenshot zeigen wir das Aussehen der App auf einem Nexus 4:
 ![image alt text](.img/image_5.jpg)
