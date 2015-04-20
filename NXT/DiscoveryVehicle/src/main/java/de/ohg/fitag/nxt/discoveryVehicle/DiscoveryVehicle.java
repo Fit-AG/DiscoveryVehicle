@@ -28,7 +28,7 @@ public class DiscoveryVehicle{
 	private static DifferentialPilot pilot;
 
     public static void main(String[] args){
-    	monitor = new ScreenMonitor(Configuration.SCREEN_UPDATE_DELAY, true, true);
+		monitor = new ScreenMonitor();
     	EmergencyShutdown emergency = new EmergencyShutdown();
     	emergency.start();
     	monitor.log("Waiting for connection");
@@ -38,6 +38,7 @@ public class DiscoveryVehicle{
     	monitor.log("Waiting 5 seconds ...");
     	communicationManager = new BluetoothCommunicationManager(connection.openInputStream(),connection.openOutputStream());
     	communicationManager.registerObserver(emergency);
+    	
     	try {
 			Thread.sleep(5000);
 		} catch (InterruptedException e) {

@@ -9,8 +9,8 @@ public class Configuration {
 	/**
 	 * vehicle settings
 	 */
-	public static final float WHEEL_DIAMETER = 5f;
-	public static final float TRACK_WIDTH = 13f;
+	public static final float WHEEL_DIAMETER = 5.5f;
+	public static final float TRACK_WIDTH = 11.5f;
 	
 	public static final NXTRegulatedMotor MOTOR_LEFT = Motor.C;
 	public static final NXTRegulatedMotor MOTOR_RIGHT = Motor.B;
@@ -20,12 +20,19 @@ public class Configuration {
 	/**
 	 * software settings
 	 */
-	public static final int SCREEN_UPDATE_DELAY = 1000; //1 second
+	public static final int SCREEN_MONITOR_UPDATE_DELAY = 1000; //1 second
 	
+    public static final int SCREEN_MONITOR_LOGS_SIZE = 25;
+    
+    public static final String SCREEN_MONITOR_LINE_SEPERATOR = "------Logs------";
+	
+    public static final boolean SCREEN_MONITOR_DATA_POWER = true;
+    
+    public static final boolean SCREEN_MONITOR_DATA_MEMORY = true;
+    
 	/**
 	 * navigation settings
 	 */
-	
 	public static final int OBJECT_DETECTION_DISTANCE = 30;
 	public static final int OBJECT_DETECTED_ROTATION = -90;
 	

@@ -2,9 +2,12 @@ package de.ohg.fitag.nxt.discoveryVehicle.monitor;
 
 import lejos.nxt.Battery;
 import lejos.nxt.LCD;
+
 import java.util.*;
 
+import de.ohg.fitag.nxt.discoveryVehicle.Configuration;
 import de.ohg.fitag.nxt.discoveryVehicle.utils.Utils;
+import de.ohg.fitag.nxt.discoveryVehicle.utils.VisibleArrayList;
 
 enum ScreenLocation{
 	CENTER,
@@ -37,30 +40,47 @@ enum ScreenLocation{
  */
 public class ScreenMonitor extends Thread implements Monitor{
 
-    private boolean battery;
-    private int cache_ttl;
-    private List<DisplayableData> data;
-
-    private final String LINE_SEPERATOR = "----------------";
-    private List<String> logs;
-
     private boolean memory;
+    private boolean battery;
+    private int cacheTTL;
+    private int logSize;
+    private String lineSeparator;
+    		
+    private List<DisplayableData> data;
+    private List<String> logs;
     
-    private final int TEXT_HEIGHT = 8;
-    private final int TEXT_WIDTH = 16;
+    private final static int TEXT_HEIGHT = 8;
+    private final static int TEXT_WIDTH = 16;
 
     /**
-     * @param cache_ttl Time to life in milliseconds without automatical update,
+     * Creates a new ScreenMonitor with constants from Configuration file
+     */
+    public ScreenMonitor(){
+        this(Configuration.SCREEN_MONITOR_UPDATE_DELAY,
+	    		Configuration.SCREEN_MONITOR_LOGS_SIZE, 
+	    		Configuration.SCREEN_MONITOR_LINE_SEPERATOR,
+	    		Configuration.SCREEN_MONITOR_DATA_MEMORY,
+	    		Configuration.SCREEN_MONITOR_DATA_POWER);
+    }
+    
+    /**
+     * Creates a new ScreenMonitor with custom constants
+     * 
+     * @param cacheTTL Time to life in milliseconds without automatical update,
      * does not influent by manual updates
+     * @param logsSize Max size for logs
+     * @param lineSeperator Default line separator between variables and logs
      * @param memory true if memory should be displayed automatically
      * @param battery true if battery should be displayed automatically
      */
-    public ScreenMonitor(int cache_ttl, boolean memory, boolean battery){
-        this.data = new ArrayList<DisplayableData>();
-        this.logs = new ArrayList<String>();
-        this.cache_ttl = cache_ttl;
+    public ScreenMonitor(int cacheTTL, int logSize, String lineSeparator, boolean memory, boolean battery){
+        this.cacheTTL = cacheTTL;
+        this.logSize = logSize;
+        this.lineSeparator = lineSeparator;
         this.memory = memory;
         this.battery = battery;
+        this.data = new ArrayList<DisplayableData>();
+        this.logs = new VisibleArrayList<String>();
         start();
     }
 
@@ -75,9 +95,10 @@ public class ScreenMonitor extends Thread implements Monitor{
 
     @Override
     public synchronized void log(String message) {
-    	while(message.length() > 16){
-    		logs.add(message.substring(0, 16));
-    		message = message.substring(16);
+    	cleanUpLogCache((int)Math.ceil(message.length() / TEXT_WIDTH));
+    	while(message.length() > TEXT_WIDTH){
+    		logs.add(message.substring(0, TEXT_WIDTH));
+    		message = message.substring(TEXT_WIDTH);
     	}
         logs.add(message);
         update();
@@ -124,7 +145,7 @@ public class ScreenMonitor extends Thread implements Monitor{
         		updateMemory();
         	update();
         	try {
-				Thread.sleep(cache_ttl);
+				Thread.sleep(cacheTTL);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -172,7 +193,7 @@ public class ScreenMonitor extends Thread implements Monitor{
 				printAt(displayableData.getFormattedDisplayValue(), line, ScreenLocation.get(location));		
     	}
         line++;
-        LCD.drawString(LINE_SEPERATOR, 0, line);
+		LCD.drawString(lineSeparator, 0, line);
         line++;
         int logIndex;
         int free = TEXT_HEIGHT - line;
@@ -185,13 +206,17 @@ public class ScreenMonitor extends Thread implements Monitor{
         	logIndex++;
         	line++;
         }
+
     }
     
     /**
-     * Clears log cache
+     * Cleanup log cache and prevent upscaling the list (possibly causes memory overflows)
+     * 
+     * @param clearance Needed clearance
      */
-    public synchronized void clear(){
-    	logs.clear();
+    public synchronized void cleanUpLogCache(int clearance){
+    	if(logs.size() + clearance >= logSize && logs.size() >= TEXT_HEIGHT)
+    		((VisibleArrayList<?>)logs).removeRange(1, logs.size() - (logs.size()-TEXT_HEIGHT));
     }
     	
     /**

@@ -9,11 +9,10 @@ public class Utils {
 	
     public static float calculateRotationChange(float old_rotation, float new_rotation){
         float difference = new_rotation - old_rotation;
-        if(difference > 180) {
+        if(difference > 180)
             difference =  -(360-difference);
-        }else if(difference < -180) {
+        else if(difference < -180)
             difference = 360+difference;
-        }
         return difference;
     }
 }
