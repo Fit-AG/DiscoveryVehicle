@@ -119,3 +119,4 @@ public class DataMessage extends JsonObject implements Message{
         return new DataMessage(readFrom(message));
     }
 }
+

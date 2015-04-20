@@ -6,7 +6,7 @@ import lejos.nxt.LCD;
 import java.util.*;
 
 import de.ohg.fitag.nxt.discoveryVehicle.Configuration;
-import de.ohg.fitag.nxt.discoveryVehicle.utils.Utils;
+import de.ohg.fitag.nxt.discoveryVehicle.utils.MathUtils;
 import de.ohg.fitag.nxt.discoveryVehicle.utils.VisibleArrayList;
 
 enum ScreenLocation{
@@ -223,7 +223,7 @@ public class ScreenMonitor extends Thread implements Monitor{
      *  Updates the battery without display. Stores battery voltage. 
      */
     private synchronized void updateBattery(){
-    	double battery = Utils.round(Battery.getVoltage(),1);
+    	double battery = MathUtils.round(Battery.getVoltage(),1);
     	store(new DisplayableData("battery", battery+"V", battery));
     }
     

@@ -1,6 +1,5 @@
 package de.ohg.fitag.nxt.discoveryVehicle;
 
-import lejos.nxt.Sound;
 import lejos.nxt.UltrasonicSensor;
 import lejos.nxt.comm.Bluetooth;
 import lejos.nxt.comm.NXTConnection;
@@ -15,6 +14,8 @@ import de.ohg.fitag.nxt.discoveryVehicle.navigation.CompassPilot;
 import de.ohg.fitag.common.communication.BluetoothCommunicationManager;
 import de.ohg.fitag.common.communication.CommunicationManager;
 import de.ohg.fitag.common.communication.ErrorMessage;
+import de.ohg.fitag.common.communication.Message;
+import de.ohg.fitag.common.communication.MessageObserver;
 
 /**
  * Created by Calvin on 12.03.2015.
@@ -36,7 +37,9 @@ public class DiscoveryVehicle{
     	connection = Bluetooth.waitForConnection();
     	monitor.log("Connected!");
     	monitor.log("Waiting 5 seconds ...");
-    	communicationManager = new BluetoothCommunicationManager(connection.openInputStream(),connection.openOutputStream());
+    	communicationManager = new BluetoothCommunicationManager(Configuration.BLUETOOTH_COMMUNICATION_MESSAGE_SIZE, 
+    			Configuration.BLUETOOTH_COMMUNICATION_MESSAGE_CACHE, 
+    			connection.openInputStream(),connection.openOutputStream());
     	communicationManager.registerObserver(emergency);
     	
     	try {

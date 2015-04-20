@@ -7,7 +7,7 @@ import de.ohg.fitag.nxt.discoveryVehicle.Configuration;
 import de.ohg.fitag.nxt.discoveryVehicle.DiscoveryVehicle;
 import de.ohg.fitag.nxt.discoveryVehicle.monitor.DisplayableData;
 import de.ohg.fitag.nxt.discoveryVehicle.monitor.ScreenMonitor;
-import de.ohg.fitag.nxt.discoveryVehicle.utils.Utils;
+import de.ohg.fitag.nxt.discoveryVehicle.utils.MathUtils;
 import lejos.robotics.RegulatedMotor;
 import lejos.robotics.navigation.DifferentialPilot;
 
@@ -126,7 +126,7 @@ public class CompassPilot extends DifferentialPilot {
 		 * @return difference (-180 up to 180) in degress
 		 */
 		public int getDifference(){
-			return Math.round(Utils.calculateRotationChange(rotation, requested_rotation));
+			return Math.round(MathUtils.calculateRotationChange(rotation, requested_rotation));
 		}
 		
 		/**

@@ -1,6 +1,6 @@
 package de.ohg.fitag.nxt.discoveryVehicle.utils;
 
-public class Utils {
+public class MathUtils {
 
 	public static double round (double value, int precision) {
 	    int scale = (int) Math.pow(10, precision);

@@ -1,7 +1,5 @@
 package de.ohg.fitag.common.communication;
 
-import android.util.Log;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -14,6 +12,8 @@ import java.util.List;
 public class BluetoothCommunicationManager implements CommunicationManager {
 
     private List<Message> messages;
+	private int messageSize;
+	private int messageCache;
     private List<MessageObserver> observers;
     private InputStream inputStream;
     private OutputStream outputStream;
@@ -24,21 +24,36 @@ public class BluetoothCommunicationManager implements CommunicationManager {
      * @param outputStream
      */
     public BluetoothCommunicationManager(InputStream inputStream, OutputStream outputStream){
+        this(300, 25, inputStream, outputStream);
+    }
+
+    /**
+     * Creates a BluetoothCommunicationManager
+     * @param messageSize max size of messages
+     * @param messageCache min size of messages to cache
+     * @param inputStream
+     * @param outputStream
+     */
+    public BluetoothCommunicationManager(int messageSize, int messageCache, InputStream inputStream, OutputStream outputStream){
+        this.messageSize = messageSize;
+        this.messageCache = messageCache;
+
         this.inputStream = inputStream;
         this.outputStream = outputStream;
 
-        this.messages = new ArrayList<Message>();
+        this.messages = new VisibleArrayList<Message>();
         this.observers = new ArrayList<MessageObserver>();
 
         InputThread inputThread = new InputThread();
         inputThread.start();
     }
-
+	
     /**
      * Insert a message in cache (should be called from inputstream thread)
      * @param message
      */
     public void insertMessage(Message message){
+		cleanUpMessageCache(1);
         messages.add(message);
         notifyObservers(message);
     }
@@ -77,6 +92,19 @@ public class BluetoothCommunicationManager implements CommunicationManager {
         return messages.size();
     }
 
+	/**
+     * Cleanup message cache and prevent upscaling the list (possibly causes memory overflows on systems with less memory)
+     * 
+     * @param clearance Needed clearance
+     */
+    public synchronized void cleanUpMessageCache(int clearance){
+    	if(messages.size() + clearance >= messageSize && messages.size() >= messageCache)
+    		((VisibleArrayList<?>)messages).removeRange(1, messages.size() - (messages.size()-messageCache));
+    }
+	
+	/**
+	 * Remove all messages, can cause problems. Instead you can use {@link BluetoothCommunicationManager#cleanUpMessageCache}}
+	 */
     @Override
     public void clearCache() {
         messages.clear();
@@ -122,11 +150,9 @@ public class BluetoothCommunicationManager implements CommunicationManager {
                     int length = inputStream.read();
                     byte[] buffer = new byte[length];
                     inputStream.read(buffer);
-
-                    Log.d("DEBUG", new String(buffer));
                     Message message = DataMessage.build(new String(buffer));
                     insertMessage(message);
-                } catch (IOException e) {
+                } catch (Exception e) {
                     notifyObservers(ErrorMessage.build(ErrorMessage.CONNECTION_CLOSED));
                     e.printStackTrace();
                 }

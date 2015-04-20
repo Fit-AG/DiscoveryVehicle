@@ -100,8 +100,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     @Override
     protected void onPause() {
         super.onPause();
-        unregisterReceiver(serviceBroadcastReceiver);
-        // to stop the listener and save battery
+        //unregisterReceiver(serviceBroadcastReceiver);
         mSensorManager.unregisterListener(this);
     }
 

@@ -23,6 +23,8 @@ public class Configuration {
 	public static final int SCREEN_MONITOR_UPDATE_DELAY = 1000; //1 second
 	
     public static final int SCREEN_MONITOR_LOGS_SIZE = 25;
+    public static final int BLUETOOTH_COMMUNICATION_MESSAGE_SIZE = 25;
+    public static final int BLUETOOTH_COMMUNICATION_MESSAGE_CACHE = 5;
     
     public static final String SCREEN_MONITOR_LINE_SEPERATOR = "------Logs------";
 	
