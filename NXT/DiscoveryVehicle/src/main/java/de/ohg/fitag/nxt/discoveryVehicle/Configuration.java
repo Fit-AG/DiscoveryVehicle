@@ -18,6 +18,12 @@ public class Configuration {
 	public static final SensorPort SENSOR_OBJECT_DETECTION = SensorPort.S1;
 	
 	/**
+	 * hydrogen sensor settings
+	 */
+	public static final float HYDROGEN_MAX_DEPTH_ROTATION = 540f;
+	public static final float HYDROGEN_MAX_DEPTH_MEASURE = 4f;
+	
+	/**
 	 * software settings
 	 */
 	public static final int SCREEN_MONITOR_UPDATE_DELAY = 1000; //1 second
@@ -42,6 +48,8 @@ public class Configuration {
 	
 	public static final int VEHICLE_TRAVEL_SPEED = 35;
 	public static final int VEHICLE_ROTATE_SPEED = 35;
+	
+	public static final float TRAVEL_DISTANCE_UNIT = 30f;
 	
 	public static final float NAVIGATION_TRACK_SPACING = TRACK_WIDTH * 1.5f;
 	public static final float NAVIGATION_OFFSET_ROTATION = 180;

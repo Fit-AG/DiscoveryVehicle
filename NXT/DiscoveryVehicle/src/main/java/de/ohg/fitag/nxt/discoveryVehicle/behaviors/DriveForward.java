@@ -2,9 +2,17 @@ package de.ohg.fitag.nxt.discoveryVehicle.behaviors;
 
 import de.ohg.fitag.nxt.discoveryVehicle.Configuration;
 import de.ohg.fitag.nxt.discoveryVehicle.DiscoveryVehicle;
+import de.ohg.fitag.nxt.discoveryVehicle.sensor.HydrogenDetectionSensor;
+import lejos.nxt.Sound;
 import lejos.robotics.subsumption.Behavior;
 
 public class DriveForward implements Behavior{
+	
+	private HydrogenDetectionSensor hs;
+	
+	public DriveForward(HydrogenDetectionSensor hs){
+		this.hs = hs;
+	}
 	
 	@Override
 	public boolean takeControl() {
@@ -14,12 +22,16 @@ public class DriveForward implements Behavior{
 	@Override
 	public void action() {
 		DiscoveryVehicle.getPilot().setTravelSpeed(Configuration.VEHICLE_TRAVEL_SPEED);
-		DiscoveryVehicle.getPilot().forward();
+		DiscoveryVehicle.getPilot().travel(Configuration.TRAVEL_DISTANCE_UNIT);
+		float depth = hs.scan();
+		if(depth != -1)
+			Sound.beep();
 	}
 
 	@Override
 	public void suppress() {
 		DiscoveryVehicle.getPilot().stop();
+		hs.reset();
 	}
 
 }

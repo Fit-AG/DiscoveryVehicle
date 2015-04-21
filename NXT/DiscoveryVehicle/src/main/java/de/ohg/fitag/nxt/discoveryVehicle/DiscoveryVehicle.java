@@ -1,5 +1,7 @@
 package de.ohg.fitag.nxt.discoveryVehicle;
 
+import lejos.nxt.Motor;
+import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
 import lejos.nxt.comm.Bluetooth;
 import lejos.nxt.comm.NXTConnection;
@@ -11,6 +13,7 @@ import de.ohg.fitag.nxt.discoveryVehicle.behaviors.ObjectDetection;
 import de.ohg.fitag.nxt.discoveryVehicle.monitor.Monitor;
 import de.ohg.fitag.nxt.discoveryVehicle.monitor.ScreenMonitor;
 import de.ohg.fitag.nxt.discoveryVehicle.navigation.CompassPilot;
+import de.ohg.fitag.nxt.discoveryVehicle.sensor.HydrogenDetectionSensor;
 import de.ohg.fitag.common.communication.BluetoothCommunicationManager;
 import de.ohg.fitag.common.communication.CommunicationManager;
 import de.ohg.fitag.common.communication.ErrorMessage;
@@ -51,7 +54,7 @@ public class DiscoveryVehicle{
     	pilot = new DifferentialPilot(Configuration.WHEEL_DIAMETER, Configuration.TRACK_WIDTH, Configuration.MOTOR_LEFT, Configuration.MOTOR_RIGHT);
     	
     	arbitrator = new Arbitrator(new Behavior[]{
-    			new DriveForward(),
+    			new DriveForward(new HydrogenDetectionSensor(Motor.A, SensorPort.S2)),
     			new ObjectDetection(new UltrasonicSensor(Configuration.SENSOR_OBJECT_DETECTION))
     	});
     	arbitrator.start();
