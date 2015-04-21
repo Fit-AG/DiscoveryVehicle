@@ -37,10 +37,15 @@ public class MainActivity extends Activity implements SensorEventListener {
     private SensorManager mSensorManager;
     private ConnectionState connectionState;
 
+    private Intent updateIntent;
+    public static final String BROADCAST_ACTION = "de.ohg.fitag.android.discoveryVehicleRemote.activity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        updateIntent = new Intent(BROADCAST_ACTION);
 
         image = (ImageView) findViewById(R.id.ivCompass);
         tvHeading = (TextView) findViewById(R.id.tvHeading);
@@ -103,9 +108,15 @@ public class MainActivity extends Activity implements SensorEventListener {
         tvConnection.setText(getResources().getText(connectionState.value()));
     }
 
+    public void requestUpdate(){
+        Log.d(TAG,"request update");
+        sendBroadcast(updateIntent);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
+        requestUpdate();
         registerReceiver(serviceBroadcastReceiver, new IntentFilter(LejosBackgroundService.BROADCAST_ACTION));
         // for the system's orientation sensor registered listeners
         mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
@@ -115,7 +126,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     @Override
     protected void onPause() {
         super.onPause();
-        //unregisterReceiver(serviceBroadcastReceiver);
+        unregisterReceiver(serviceBroadcastReceiver);
         mSensorManager.unregisterListener(this);
     }
 

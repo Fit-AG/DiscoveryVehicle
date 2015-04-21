@@ -2,7 +2,10 @@ package de.ohg.fitag.android.discoveryVehicleRemote;
 
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.IBinder;
@@ -15,7 +18,7 @@ import android.widget.Toast;
  */
 public class LejosBackgroundService extends Service{
 
-    public static final String BROADCAST_ACTION = "de.ohg.fitag.android.discoveryVehicleRemote";
+    public static final String BROADCAST_ACTION = "de.ohg.fitag.android.discoveryVehicleRemote.service";
     private static final String TAG = "LejosService";
     private Intent updateIntent;
     private LejosBackgroundTask backgroundTask;
@@ -60,6 +63,7 @@ public class LejosBackgroundService extends Service{
 
     @Override
     public void onCreate() {
+        registerReceiver(receiver, new IntentFilter(MainActivity.BROADCAST_ACTION));
         updateIntent = new Intent(BROADCAST_ACTION);
         sensorManager = ((SensorManager) getSystemService(SENSOR_SERVICE));
         PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
@@ -101,5 +105,13 @@ public class LejosBackgroundService extends Service{
             disableBluetooth();
         setRunningVariable(false);
         sendStateUpdate();
+        unregisterReceiver(receiver);
     }
+
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            sendStateUpdate();
+        }
+    };
 }
