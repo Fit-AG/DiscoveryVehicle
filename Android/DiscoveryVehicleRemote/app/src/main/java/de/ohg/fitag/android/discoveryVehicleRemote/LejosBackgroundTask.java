@@ -73,6 +73,13 @@ public class LejosBackgroundTask extends Thread implements MessageObserver, Sens
         return difference;
     }
 
+    public void initiateConnectionClosed() {
+        if(communicationManager == null)
+            return;
+        communicationManager.sendMessage(ErrorMessage.build(ErrorMessage.CONNECTION_CLOSED));
+        service.setConnectionVariable(ConnectionState.DISCONNECTED);
+    }
+
     @Override
     public void onReceive(Message message) {
         Log.d(TAG,"Message received! "+message.parse());
@@ -86,6 +93,8 @@ public class LejosBackgroundTask extends Thread implements MessageObserver, Sens
     }
 
     public void sendUpdateMessage() {
+        if(communicationManager == null)
+            return;
         DataMessage message = DataMessage.build().append("degree", Math.round(new_rotation));
         communicationManager.sendMessage(message);
     }

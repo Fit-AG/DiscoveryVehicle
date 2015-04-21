@@ -5,4 +5,7 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <item name="danger" type="color">#F44336</item>
+    <item name="normal" type="color">#03A9F4</item>
+
 </resources>

@@ -35,6 +35,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     private float currentDegree = 0f;
     private SensorManager mSensorManager;
+    private ConnectionState connectionState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,17 +49,21 @@ public class MainActivity extends Activity implements SensorEventListener {
         tvConnection = (TextView) findViewById(R.id.tvConnectionState);
         pgSpinner = (ProgressBar) findViewById(R.id.pgSpinner);
         btAction = (Button) findViewById(R.id.btAction);
+        connectionState = ConnectionState.DISCONNECTED;
         setupNXJCache();
 
-        final Intent intent = new Intent(this, LejosBackgroundService.class);
-
         final Button button = (Button) findViewById(R.id.btAction);
-
+        final Intent serviceIntent = new Intent(this, LejosBackgroundService.class);
         button.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View arg0) {
-                startService(intent);
+                switch(connectionState){
+                    case CONNECTED:
+                        stopService(serviceIntent);
+                        break;
+                    default:
+                        startService(serviceIntent);
+                }
             }
         });
 
@@ -75,17 +80,27 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     public void updateUI(Intent intent){
         boolean running = intent.getBooleanExtra("running", true);
-        if(running){
+        connectionState = (ConnectionState) intent.getSerializableExtra("connection");
+        if(running)
             pgSpinner.setVisibility(View.VISIBLE);
-            btAction.setEnabled(false);
-        }else {
+        else
             pgSpinner.setVisibility(View.INVISIBLE);
-            btAction.setEnabled(true);
+        switch(connectionState){
+            case CONNECTED:
+                btAction.setEnabled(true);
+                btAction.setBackgroundColor(getResources().getColor(R.color.danger));
+                btAction.setText(getResources().getText(R.string.btAction_disconnect));
+                break;
+            case PENDING:
+                btAction.setEnabled(false);
+                break;
+            default:
+                btAction.setEnabled(true);
+                btAction.setBackgroundColor(getResources().getColor(R.color.normal));
+                btAction.setText(getResources().getText(R.string.btAction_connect));
         }
-
-        ConnectionState connection_state = (ConnectionState) intent.getSerializableExtra("connection");
-        tvConnection.setTextColor(connection_state.color());
-        tvConnection.setText(getResources().getText(connection_state.value()));
+        tvConnection.setTextColor(connectionState.color());
+        tvConnection.setText(getResources().getText(connectionState.value()));
     }
 
     @Override

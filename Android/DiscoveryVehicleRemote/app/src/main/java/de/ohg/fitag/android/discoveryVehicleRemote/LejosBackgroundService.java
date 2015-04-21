@@ -92,12 +92,13 @@ public class LejosBackgroundService extends Service{
 
     @Override
     public void onDestroy() {
-        //dont disable bluetooth on connection fail, so it is activated for next try
-        if(connection != ConnectionState.FAILED)
-            disableBluetooth();
+        backgroundTask.initiateConnectionClosed();
         sensorManager.unregisterListener(backgroundTask);
         wakelock.release();
         backgroundTask.interrupt();
+        //dont disable bluetooth on connection fail, so it is activated for next try
+        if(connection != ConnectionState.FAILED)
+            disableBluetooth();
         setRunningVariable(false);
         sendStateUpdate();
     }

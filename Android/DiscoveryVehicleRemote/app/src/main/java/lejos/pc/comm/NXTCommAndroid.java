@@ -124,7 +124,12 @@ public class NXTCommAndroid implements NXTComm {
             try {
                 lsb = is.read();
             } catch (Exception e) {
-                Log.e(TAG, "read err lsb", e);
+                Log.e(TAG, "read err lsb, closing connection", e);
+                try {
+                    close();
+                }catch(IOException exception){
+                    Log.e(TAG, "error while closing connection", exception);
+                }
             }
 
             if (lsb < 0) {
