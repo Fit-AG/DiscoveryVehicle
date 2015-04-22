@@ -35,6 +35,7 @@ public class DiscoveryVehicle{
 		monitor = new ScreenMonitor();
     	EmergencyShutdown emergency = new EmergencyShutdown();
     	emergency.start();
+    	monitor.log("test");
     	monitor.log("Waiting for connection");
     	
     	connection = Bluetooth.waitForConnection();
