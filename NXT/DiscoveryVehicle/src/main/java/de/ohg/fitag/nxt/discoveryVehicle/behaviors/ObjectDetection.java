@@ -22,7 +22,6 @@ public class ObjectDetection implements Behavior{
 	@Override
 	public void action() {
 		DiscoveryVehicle.getMonitor().log("Object "+us.getDistance());
-		DiscoveryVehicle.getPilot().setRotateSpeed(Configuration.VEHICLE_ROTATE_SPEED);
 		double angle = nextDirection ? Configuration.OBJECT_DETECTED_ROTATION * (-1) : Configuration.OBJECT_DETECTED_ROTATION;
 		DiscoveryVehicle.getPilot().setRotateSpeed(Configuration.VEHICLE_ROTATE_SPEED);
 		DiscoveryVehicle.getPilot().setTravelSpeed(Configuration.VEHICLE_TRAVEL_SPEED);

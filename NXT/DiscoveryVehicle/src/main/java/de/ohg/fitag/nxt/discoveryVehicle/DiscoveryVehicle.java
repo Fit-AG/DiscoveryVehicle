@@ -35,7 +35,6 @@ public class DiscoveryVehicle{
 		monitor = new ScreenMonitor();
     	EmergencyShutdown emergency = new EmergencyShutdown();
     	emergency.start();
-    	monitor.log("test");
     	monitor.log("Waiting for connection");
     	
     	connection = Bluetooth.waitForConnection();
@@ -55,7 +54,7 @@ public class DiscoveryVehicle{
     	pilot = new DifferentialPilot(Configuration.WHEEL_DIAMETER, Configuration.TRACK_WIDTH, Configuration.MOTOR_LEFT, Configuration.MOTOR_RIGHT);
     	
     	arbitrator = new Arbitrator(new Behavior[]{
-    			new DriveForward(new HydrogenDetectionSensor(Motor.A, SensorPort.S2)),
+    			new DriveForward(new HydrogenDetectionSensor(Configuration.HYDROGEN_SENSOR_MOTOR, Configuration.HYDROGEN_SENSOR_PORT)),
     			new ObjectDetection(new UltrasonicSensor(Configuration.SENSOR_OBJECT_DETECTION))
     	});
     	arbitrator.start();
