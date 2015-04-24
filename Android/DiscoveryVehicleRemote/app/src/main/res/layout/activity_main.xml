@@ -1,34 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-android:background="#fff" >
-
-    <TextView
-    android:id="@+id/tvHeading"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_centerHorizontal="true"
-    android:layout_marginBottom="40dp"
-    android:layout_marginTop="20dp"
-    android:text="Heading: 0.0" />
-
-    <ProgressBar
-        android:id="@+id/pgSpinner"
-        android:visibility="invisible"
-        android:indeterminateOnly="true"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="20dp"
-        android:layout_above="@+id/btAction" />
-
-    <ImageView
-        android:id="@+id/ivCompass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvHeading"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/img_compass" />
+android:background="#fff">
 
     <Button
         android:id="@+id/btAction"
@@ -41,6 +14,14 @@ android:background="#fff" >
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/tvWaterDepth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tvWaterDepth"
+        android:layout_above="@+id/tvConnectionState"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/tvConnectionState"
@@ -58,5 +39,14 @@ android:background="#fff" >
         android:layout_alignParentRight="true"
         android:layout_marginRight="20dp"
         android:layout_above="@+id/btAction" />
+
+    <ImageView
+        android:id="@+id/ivWaterFound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/water_drop_inactive"
+        android:layout_above="@+id/tvConnectionState"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

@@ -11,4 +11,6 @@
     <string name="action_settings">Settings</string>
     <string name="conn_pending">Verbindung wird aufgebaut...</string>
     <string name="conn_aborted">Verbindung abgebrochen!</string>
+
+    <string name="tvWaterDepth">Kein Wasser erkannt</string>
 </resources>
