@@ -80,9 +80,14 @@ public class LejosBackgroundTask extends Thread implements MessageObserver, Sens
     @Override
     public void onReceive(Message message) {
         Log.d(TAG,"Message received! "+message.parse());
+
+        float waterDepth = ((DataMessage)message).getFloat("water", -2);
+        if(waterDepth != -2)
+            service.foundWater(waterDepth);
+
         String placeholder = "placeholder";
-        String content = ((DataMessage)message).getString("error", placeholder);
-        if(content.equals(ErrorMessage.CONNECTION_CLOSED))
+        String error = ((DataMessage)message).getString("error", placeholder);
+        if(error.equals(ErrorMessage.CONNECTION_CLOSED))
             service.setConnectionVariable(ConnectionState.ABORTED);
     }
 

@@ -102,6 +102,7 @@ public class MainActivity extends Activity {
     public void foundWater(float depth){
         if(depth == -1){
             tvWaterDepth.setEnabled(false);
+            tvWaterDepth.setText(getResources().getText(R.string.tvWaterDepth));
             ivWaterFound.setImageDrawable(getResources().getDrawable(R.drawable.water_drop_inactive));
         }else{
             tvWaterDepth.setEnabled(true);

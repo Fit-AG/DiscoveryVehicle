@@ -41,6 +41,11 @@ public class LejosBackgroundService extends Service{
             observer.onConnectionChange(connectionState);
     }
 
+    public void foundWater(float depth){
+        for(LejosServiceObserver observer : observers)
+            observer.onWaterFound(depth);
+    }
+
     @Override
     public void onCreate() {
         running = true;

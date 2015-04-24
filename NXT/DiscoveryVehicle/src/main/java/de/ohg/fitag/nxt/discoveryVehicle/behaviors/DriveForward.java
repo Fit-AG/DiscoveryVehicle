@@ -1,5 +1,6 @@
 package de.ohg.fitag.nxt.discoveryVehicle.behaviors;
 
+import de.ohg.fitag.common.communication.DataMessage;
 import de.ohg.fitag.nxt.discoveryVehicle.Configuration;
 import de.ohg.fitag.nxt.discoveryVehicle.DiscoveryVehicle;
 import de.ohg.fitag.nxt.discoveryVehicle.sensor.HydrogenDetectionSensor;
@@ -26,6 +27,8 @@ public class DriveForward implements Behavior{
 		float depth = hs.scan();
 		if(depth != -1)
 			Sound.beep();
+		
+		DiscoveryVehicle.getCommunicationManager().sendMessage( DataMessage.build().append("water", depth) );
 	}
 
 	@Override
