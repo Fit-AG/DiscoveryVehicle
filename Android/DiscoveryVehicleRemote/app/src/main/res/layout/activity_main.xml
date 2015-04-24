@@ -32,10 +32,10 @@ android:background="#fff" >
 
     <Button
         android:id="@+id/btAction"
-        android:background="@color/normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/btAction_connect"
+        android:background="@color/normal"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"

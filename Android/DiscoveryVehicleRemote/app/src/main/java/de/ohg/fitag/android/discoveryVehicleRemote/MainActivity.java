@@ -1,15 +1,17 @@
 package de.ohg.fitag.android.discoveryVehicleRemote;
 import android.app.Activity;
-import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -25,6 +27,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import android.content.ServiceConnection;
+
 public class MainActivity extends Activity implements SensorEventListener {
     private ImageView image;
 
@@ -37,15 +41,13 @@ public class MainActivity extends Activity implements SensorEventListener {
     private SensorManager mSensorManager;
     private ConnectionState connectionState;
 
-    private Intent updateIntent;
-    public static final String BROADCAST_ACTION = "de.ohg.fitag.android.discoveryVehicleRemote.activity";
+    private boolean bound;
+    private LejosBackgroundService backgroundService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        updateIntent = new Intent(BROADCAST_ACTION);
 
         image = (ImageView) findViewById(R.id.ivCompass);
         tvHeading = (TextView) findViewById(R.id.tvHeading);
@@ -58,66 +60,49 @@ public class MainActivity extends Activity implements SensorEventListener {
         setupNXJCache();
 
         final Button button = (Button) findViewById(R.id.btAction);
-        final Intent serviceIntent = new Intent(this, LejosBackgroundService.class);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
+                if(!bound)
+                    return;
                 switch(connectionState){
                     case CONNECTED:
-                        stopService(serviceIntent);
+                        backgroundService.closeConnection();
                         break;
                     default:
-                        startService(serviceIntent);
+                        backgroundService.openConnection();
                 }
             }
         });
-
     }
 
-    private final static String TAG = "LeJOSDroid";
+    private final static String TAG = "DiscoveryVehicle";
 
-    private BroadcastReceiver serviceBroadcastReceiver = new BroadcastReceiver() {
+    private LejosBackgroundService.LejosServiceObserver observer = new LejosBackgroundService.LejosServiceObserver(){
+
         @Override
-        public void onReceive(Context context, Intent intent) {
-            updateUI(intent);
+        public void onConnectionChange(ConnectionState newConnectionState) {
+            connectionState = newConnectionState;
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    tvConnection.setTextColor(connectionState.color());
+                    tvConnection.setText(getResources().getText(connectionState.value()));
+                }
+            });
+        }
+
+        @Override
+        public void onWaterFound(float depth) {
+
         }
     };
-
-    public void updateUI(Intent intent){
-        boolean running = intent.getBooleanExtra("running", true);
-        connectionState = (ConnectionState) intent.getSerializableExtra("connection");
-        if(running)
-            pgSpinner.setVisibility(View.VISIBLE);
-        else
-            pgSpinner.setVisibility(View.INVISIBLE);
-        switch(connectionState){
-            case CONNECTED:
-                btAction.setEnabled(true);
-                btAction.setBackgroundColor(getResources().getColor(R.color.danger));
-                btAction.setText(getResources().getText(R.string.btAction_disconnect));
-                break;
-            case PENDING:
-                btAction.setEnabled(false);
-                break;
-            default:
-                btAction.setEnabled(true);
-                btAction.setBackgroundColor(getResources().getColor(R.color.normal));
-                btAction.setText(getResources().getText(R.string.btAction_connect));
-        }
-        tvConnection.setTextColor(connectionState.color());
-        tvConnection.setText(getResources().getText(connectionState.value()));
-    }
-
-    public void requestUpdate(){
-        Log.d(TAG,"request update");
-        sendBroadcast(updateIntent);
-    }
 
     @Override
     protected void onResume() {
         super.onResume();
-        requestUpdate();
-        registerReceiver(serviceBroadcastReceiver, new IntentFilter(LejosBackgroundService.BROADCAST_ACTION));
+        final Intent serviceIntent = new Intent(this, LejosBackgroundService.class);
+        bindService(serviceIntent, connection, Context.BIND_AUTO_CREATE);
         // for the system's orientation sensor registered listeners
         mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
                 SensorManager.SENSOR_DELAY_GAME);
@@ -126,8 +111,16 @@ public class MainActivity extends Activity implements SensorEventListener {
     @Override
     protected void onPause() {
         super.onPause();
-        unregisterReceiver(serviceBroadcastReceiver);
         mSensorManager.unregisterListener(this);
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+
+        if(bound)
+            unbindService(connection);
+        bound = false;
     }
 
     private void setupNXJCache() {
@@ -183,4 +176,21 @@ public class MainActivity extends Activity implements SensorEventListener {
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
+
+    private ServiceConnection connection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName className,
+                                       IBinder service) {
+            LejosBackgroundService.LocalBinder binder = (LejosBackgroundService.LocalBinder) service;;
+            backgroundService = binder.getService();
+            backgroundService.registerObserver(observer);
+            bound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            bound = false;
+        }
+    };
 }

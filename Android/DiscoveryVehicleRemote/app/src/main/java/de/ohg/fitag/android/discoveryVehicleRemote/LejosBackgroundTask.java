@@ -32,12 +32,9 @@ public class LejosBackgroundTask extends Thread implements MessageObserver, Sens
         NXTConnector nxtConnector = connect(CONN_TYPE.LEJOS_PACKET);
         if (nxtConnector == null) {
             service.setConnectionVariable(ConnectionState.FAILED);
-            service.sendStateUpdate();
-            service.stopSelf();
             return;
         }
         service.setConnectionVariable(ConnectionState.CONNECTED);
-        service.sendStateUpdate();
 
         InputStream inputStream = nxtConnector.getInputStream();
         OutputStream outputStream = nxtConnector.getOutputStream();
@@ -85,11 +82,8 @@ public class LejosBackgroundTask extends Thread implements MessageObserver, Sens
         Log.d(TAG,"Message received! "+message.parse());
         String placeholder = "placeholder";
         String content = ((DataMessage)message).getString("error", placeholder);
-        if(content.equals(ErrorMessage.CONNECTION_CLOSED)) {
+        if(content.equals(ErrorMessage.CONNECTION_CLOSED))
             service.setConnectionVariable(ConnectionState.ABORTED);
-            service.sendStateUpdate();
-            service.stopSelf();
-        }
     }
 
     public void sendUpdateMessage() {
