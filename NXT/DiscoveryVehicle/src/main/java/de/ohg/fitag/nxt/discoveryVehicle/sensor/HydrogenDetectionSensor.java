@@ -40,12 +40,12 @@ public class HydrogenDetectionSensor implements SensorConstants{
 			return -2f;
 		int depth = 1;
 		while(!isPowered()){
-			depth+=10;
+			depth+=Configuration.HYDROGEN_MEASURE_STEP;
 			if(depth >= Configuration.HYDROGEN_MAX_DEPTH_ROTATION){
 				reset();
 				return -1f;
 			}	
-			motor.rotateTo(depth);
+			motor.rotateTo(Configuration.HYDROGEN_MOTOR_INVERT * depth);
 		}
 		reset();
 		return Configuration.HYDROGEN_MAX_DEPTH_MEASURE / (Configuration.HYDROGEN_MAX_DEPTH_ROTATION / depth);

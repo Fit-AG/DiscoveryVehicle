@@ -21,9 +21,9 @@ public class Configuration {
 	 * Fahrzeug-Einstellungen, die der Konfiguration von Konstruktionsparametern und Ports dienen
 	 */
 	//Raddurchmesser, dient der Berechnung der Streckenlängen und Rotationen
-	public static final float WHEEL_DIAMETER = 5.5f;
-	//Abstand zwischen den beiden Fahrachsen, dient der Berechnung der Streckenlängen und Rotationen
-	public static final float TRACK_WIDTH = 11.5f;
+	public static final float WHEEL_DIAMETER = 3.3f;
+	//Abstand zwischen den beiden Fahrachsen (Gesamtbreite), dient der Berechnung der Streckenlängen und Rotationen
+	public static final float TRACK_WIDTH = 44f;
 	
 	//Motoren links und rechts zur Bewegung des ganzen Roboters
 	public static final NXTRegulatedMotor MOTOR_LEFT = Motor.C;
@@ -35,7 +35,7 @@ public class Configuration {
 	//Motor zur mechanischen Absenkung des Feuchtigkeitssensors
 	public static final NXTRegulatedMotor HYDROGEN_SENSOR_MOTOR = Motor.A;
 	//Port des Feuchtigkeitssensors
-	public static final SensorPort HYDROGEN_SENSOR_PORT = SensorPort.S2;
+	public static final SensorPort HYDROGEN_SENSOR_PORT = SensorPort.S4;
 	
 	/**
 	 * hydrogen sensor settings
@@ -45,6 +45,10 @@ public class Configuration {
 	public static final float HYDROGEN_MAX_DEPTH_ROTATION = 540f;
 	//Maximale Eindringtiefe des Feuchtigkeitssensors in den Untergrund, dient der Berechnung der tatsächlichen Tiefe
 	public static final float HYDROGEN_MAX_DEPTH_MEASURE = 4f;
+	//Rotationsschrittweite (standardmäßig -10)
+	public static final float HYDROGEN_MEASURE_STEP = 10;
+	//Richtung (-1 für rückwärts und 1 für vorwärts)
+	public static final int HYDROGEN_MOTOR_INVERT = -1;
 	
 	/**
 	 * software settings
@@ -84,7 +88,7 @@ public class Configuration {
 	public static final int OBJECT_DETECTION_DISTANCE = 30;
     //Drehung in Grad, wenn ein Objekt erkannt wird
 	//Aufgrund der Mäander-Fahrstrategie wechselt dieser Wert in jeder Fahrspur automatisch von positiv auf negativ und umgekehrt
-	///(Sollte aufgrund Mäander-Fahrstrategie 90� betragen)
+	///(Sollte aufgrund Mäander-Fahrstrategie 90° betragen)
 	public static final int OBJECT_DETECTED_ROTATION = -90;
 	
 	//Noch nicht implemtiert
