@@ -27,7 +27,7 @@ public class DriveForward implements Behavior{
 		float depth = hs.scan();
 		if(depth != -1)
 			Sound.beep();
-		
+		DiscoveryVehicle.getMonitor().log("water: "+depth/10);
 		DiscoveryVehicle.getCommunicationManager().sendMessage( DataMessage.build().append("water", depth) );
 	}
 

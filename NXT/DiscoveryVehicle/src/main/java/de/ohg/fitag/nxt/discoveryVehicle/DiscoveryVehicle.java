@@ -16,6 +16,7 @@ import de.ohg.fitag.nxt.discoveryVehicle.navigation.CompassPilot;
 import de.ohg.fitag.nxt.discoveryVehicle.sensor.HydrogenDetectionSensor;
 import de.ohg.fitag.common.communication.BluetoothCommunicationManager;
 import de.ohg.fitag.common.communication.CommunicationManager;
+import de.ohg.fitag.common.communication.DataMessage;
 import de.ohg.fitag.common.communication.ErrorMessage;
 import de.ohg.fitag.common.communication.Message;
 import de.ohg.fitag.common.communication.MessageObserver;
@@ -51,13 +52,19 @@ public class DiscoveryVehicle{
 			e.printStackTrace();
 		}
 
-    	pilot = new DifferentialPilot(Configuration.WHEEL_DIAMETER, Configuration.TRACK_WIDTH, Configuration.MOTOR_LEFT, Configuration.MOTOR_RIGHT);
-    	
-    	arbitrator = new Arbitrator(new Behavior[]{
-    			new DriveForward(new HydrogenDetectionSensor(Configuration.HYDROGEN_SENSOR_MOTOR, Configuration.HYDROGEN_SENSOR_PORT)),
-    			new ObjectDetection(new UltrasonicSensor(Configuration.SENSOR_OBJECT_DETECTION))
-    	});
-    	arbitrator.start();
+    	HydrogenDetectionSensor s = new HydrogenDetectionSensor(Configuration.HYDROGEN_SENSOR_MOTOR, Configuration.HYDROGEN_SENSOR_PORT);
+		while(true){
+			float depth = s.scan();
+			monitor.log("detected: "+depth);
+			communicationManager.sendMessage( DataMessage.build().append("water", depth));
+		}	
+    	//    	pilot = new DifferentialPilot(Configuration.WHEEL_DIAMETER, Configuration.TRACK_WIDTH, Configuration.MOTOR_LEFT, Configuration.MOTOR_RIGHT);
+//    	
+//    	arbitrator = new Arbitrator(new Behavior[]{
+//    			new DriveForward(new HydrogenDetectionSensor(Configuration.HYDROGEN_SENSOR_MOTOR, Configuration.HYDROGEN_SENSOR_PORT)),
+//    			new ObjectDetection(new UltrasonicSensor(Configuration.SENSOR_OBJECT_DETECTION))
+//    	});
+//    	arbitrator.start();
     }
     
     public static Monitor getMonitor(){
