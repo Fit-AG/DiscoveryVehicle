@@ -120,6 +120,7 @@ Die Android Komponente enthält unsere App. Sie hängt von der *pccomm* Biblioth
 Die App dürfte mit allen neueren Android Versionen kompatibel sein. Wie wir im Laufe des Projekts feststellen mussten, besitzt das Herstellen der Verbindung manchmal einige Macken und erfordert mehrere Versuche (~4-20). Dieses Problem kann aber relativ leicht gelöst werden, indem das aktive Pairing des Smartphones und NXT vor jedem Verbindungsaufbau entfernt wird.
 
 Hier ein paar Screenshots der App unter Android Lollipop:
+
 ![image alt text](.img/app_notConnected.png)![image alt text](.img/app_pending.png)![image alt text](.img/app_waterFound.png)
 
 ### Urheberrechtshinweis
