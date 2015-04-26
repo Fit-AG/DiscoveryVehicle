@@ -1,6 +1,10 @@
 ![image alt text](.img/logo.jpg)
 # DiscoveryVehicle
-Projekt für WRO 2015 - Autonomes Fahrzeug mittels leJOS
+Autonomes Fahrzeug zur Entdeckung von Wasser - Realisiert mittels leJOS
+
+#Vorwort
+Das hier verfügbare Softwareprojekt wurde ursprünglich für die [WRO 2015 in Haßloch](http://worldrobotolympiad.de/wro2015-wettbewerb?w=28#Haßloch) (bzw. für den Landeswettbewerb Robotik in Rheinland-Pfalz) in der **Open-Category** entwickelt. Leider erreichte unser Team nur den zweiten und somit letzten Platz. Dennoch wird an diesem Projekt weitergearbeitet, bis wir mit dem realisierten Ergebnissen zufrieden sind.
+![image alt text](.img/image_wro.jpg)
 
 ##1. Grundlegende Technologien und Komponenten
 
@@ -115,5 +119,8 @@ Die Android Komponente enthält unsere App. Sie hängt von der *pccomm* Biblioth
 
 Die App dürfte mit allen neueren Android Versionen kompatibel sein. Wie wir im Laufe des Projekts feststellen mussten, besitzt das Herstellen der Verbindung manchmal einige Macken und erfordert mehrere Versuche (~4-20). Dieses Problem kann aber relativ leicht gelöst werden, indem das aktive Pairing des Smartphones und NXT vor jedem Verbindungsaufbau entfernt wird.
 
-Im folgenden Screenshot zeigen wir das Aussehen der App auf einem Nexus 4:
-![image alt text](.img/image_5.jpg)
+Hier ein paar Screenshots der App unter Android Lollipop:
+![image alt text](.img/app_notConnected.png)![image alt text](.img/app_pending.png)![image alt text](.img/app_waterFound.png)
+
+### Urheberrechtshinweis
+Die Grafiken der Wassertropfen basieren auf Icons von [Freepik](http://www.freepik.com) von [flaticon.org](http://ww.flaticon.org/).
