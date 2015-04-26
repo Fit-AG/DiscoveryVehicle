@@ -3,7 +3,7 @@
 Autonomes Fahrzeug zur Entdeckung von Wasser - Realisiert mittels leJOS
 
 #Vorwort
-Das hier verfügbare Softwareprojekt wurde ursprünglich für die [WRO 2015 in Haßloch](http://worldrobotolympiad.de/wro2015-wettbewerb?w=28#Haßloch) (bzw. für den Landeswettbewerb Robotik in Rheinland-Pfalz) in der **Open-Category** entwickelt. Leider erreichte unser Team nur den zweiten und somit letzten Platz. Dennoch wird an diesem Projekt weitergearbeitet, bis wir mit dem realisierten Ergebnissen zufrieden sind.
+Das hier verfügbare Softwareprojekt wurde ursprünglich für die [WRO 2015 in Haßloch](http://worldrobotolympiad.de/wro2015-wettbewerb?w=28#Haßloch) (bzw. für den Landeswettbewerb Robotik in Rheinland-Pfalz) in der **Open-Category** entwickelt. Leider erreichte unser Team nur den zweiten und somit letzten Platz. Dennoch wird an diesem Projekt weitergearbeitet, bis wir mit den realisierten Ergebnissen zufrieden sind.
 ![image alt text](.img/image_wro.jpg)
 
 ##1. Grundlegende Technologien und Komponenten
@@ -123,5 +123,5 @@ Hier ein paar Screenshots der App unter Android Lollipop:
 
 ![image alt text](.img/app_notConnected.png)![image alt text](.img/app_pending.png)![image alt text](.img/app_waterFound.png)
 
-### Urheberrechtshinweis
+#### Urheberrechtshinweis
 Die Grafiken der Wassertropfen basieren auf Icons von [Freepik](http://www.freepik.com) von [flaticon.org](http://ww.flaticon.org/).
