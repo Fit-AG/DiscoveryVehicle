@@ -1,14 +1,20 @@
 <resources>
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="@android:style/Theme.Holo.Light">
-        <item name="colorPrimary">@color/normal</item>
-        <item name="colorAccent">@color/normal</item>
+        <item name="android:actionBarStyle">@style/PrimaryColoredActionBar</item>
+    </style>
+
+    <style name="PrimaryColoredActionBar"
+        parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/primary</item>
+        <item name="android:logo">@android:color/transparent</item>
     </style>
 
     <item name="danger" type="color">#F44336</item>
-    <item name="normal" type="color">#03A9F4</item>
-    <item name="white" type="color">#ffffff</item>#
-    <item name="light_blue" type="color">#039BE5</item>
-
+    <item name="primary" type="color">#03A9F4</item>
+    <item name="white" type="color">#ffffff</item>
+    <item name="friendly" type="color">#64DD17</item>
+    <item name="primaryText" type="color">#de000000</item>
+    <item name="primaryLight" type="color">#039BE5</item>
+    <item name="disabledOpacity" type="string">0.26</item>
 </resources>

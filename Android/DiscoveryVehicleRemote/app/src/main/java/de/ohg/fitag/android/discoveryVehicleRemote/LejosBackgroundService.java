@@ -8,6 +8,7 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.os.PowerManager.WakeLock;
 import android.os.PowerManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class LejosBackgroundService extends Service{
 
     private List<LejosServiceObserver> observers;
 
-    public void setConnectionVariable(ConnectionState connectionState){
+    public void setConnectionState(ConnectionState connectionState){
         this.connection = connectionState;
 
         for(LejosServiceObserver observer : observers)
@@ -86,7 +87,7 @@ public class LejosBackgroundService extends Service{
             return;
         sensorManager.unregisterListener(backgroundTask);
         backgroundTask.initiateConnectionClosed();
-        backgroundTask.interrupt();
+        interruptBackgroundTask();
 
         if(connection != ConnectionState.FAILED)
             Tools.disableBluetooth();
@@ -94,13 +95,22 @@ public class LejosBackgroundService extends Service{
         wakelock.release();
     }
 
+    public void interruptBackgroundTask(){
+        backgroundTask.interrupt();
+        backgroundTask = null;
+    }
+
     public void openConnection(){
         wakelock.acquire();
 
+        if(backgroundTask != null) {
+            Log.d(TAG, "BackroundTask already running - cannot etablish new connection");
+            return;
+        }
         if (Tools.enableBluetooth())
             Toast.makeText(this, "Bluetooth aktiviert", Toast.LENGTH_SHORT).show();
 
-        setConnectionVariable(ConnectionState.PENDING);
+        setConnectionState(ConnectionState.PENDING);
         backgroundTask = new LejosBackgroundTask(this);
         backgroundTask.start();
 

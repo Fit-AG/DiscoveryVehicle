@@ -31,10 +31,11 @@ public class LejosBackgroundTask extends Thread implements MessageObserver, Sens
     public void run(){
         NXTConnector nxtConnector = connect(CONN_TYPE.LEJOS_PACKET);
         if (nxtConnector == null) {
-            service.setConnectionVariable(ConnectionState.FAILED);
+            service.setConnectionState(ConnectionState.FAILED);
+            service.interruptBackgroundTask();
             return;
         }
-        service.setConnectionVariable(ConnectionState.CONNECTED);
+        service.setConnectionState(ConnectionState.CONNECTED);
 
         InputStream inputStream = nxtConnector.getInputStream();
         OutputStream outputStream = nxtConnector.getOutputStream();
@@ -43,7 +44,7 @@ public class LejosBackgroundTask extends Thread implements MessageObserver, Sens
         communicationManager.registerObserver(this);
         Message message = DataMessage.build().append("hand","shake");
         communicationManager.sendMessage(message);
-        while(true){
+        while(!isInterrupted()){
             float full_new_rotation = new_rotation + 180;
             float difference = Math.round(calculateRotationChange(rotation, full_new_rotation));
             if(Math.abs(difference) > tolerance) {
@@ -52,9 +53,10 @@ public class LejosBackgroundTask extends Thread implements MessageObserver, Sens
             }
             rotation = full_new_rotation;
             try {
-                Thread.sleep(750); //Should not block!, too small?
+                Thread.sleep(750);
             } catch (InterruptedException e) {
                 e.printStackTrace();
+                interrupt();
             }
         }
         //stopSelf();
@@ -74,7 +76,7 @@ public class LejosBackgroundTask extends Thread implements MessageObserver, Sens
         if(communicationManager == null)
             return;
         communicationManager.sendMessage(ErrorMessage.build(ErrorMessage.CONNECTION_CLOSED));
-        service.setConnectionVariable(ConnectionState.DISCONNECTED);
+        service.setConnectionState(ConnectionState.DISCONNECTED);
     }
 
     @Override
@@ -88,7 +90,7 @@ public class LejosBackgroundTask extends Thread implements MessageObserver, Sens
         String placeholder = "placeholder";
         String error = ((DataMessage)message).getString("error", placeholder);
         if(error.equals(ErrorMessage.CONNECTION_CLOSED))
-            service.setConnectionVariable(ConnectionState.ABORTED);
+            service.setConnectionState(ConnectionState.ABORTED);
     }
 
     public void sendUpdateMessage() {

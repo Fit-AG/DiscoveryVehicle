@@ -1,5 +1,7 @@
 package de.ohg.fitag.android.discoveryVehicleRemote;
 import android.app.Activity;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -50,8 +52,6 @@ public class MainActivity extends Activity {
 
         setupNXJCache();
 
-        foundWater(-1);
-
         final Button button = (Button) findViewById(R.id.btAction);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,9 +80,26 @@ public class MainActivity extends Activity {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    tvConnection.setTextColor(connectionState.color());
+                    tvConnection.setTextColor(getResources().getColor(connectionState.color()));
                     tvConnection.setText(getResources().getText(connectionState.value()));
 
+                    switch(connectionState) {
+                        case CONNECTED:
+                            btAction.setEnabled(true);
+                            btAction.setAlpha(1);
+                            btAction.setBackgroundColor(getResources().getColor(R.color.danger));
+                            btAction.setText(getResources().getText(R.string.btActionDisconnect));
+                            break;
+                        case PENDING:
+                            btAction.setEnabled(false);
+                            btAction.setAlpha(Float.parseFloat(getResources().getString(R.string.disabledOpacity)));
+                            break;
+                        default:
+                            btAction.setEnabled(true);
+                            btAction.setAlpha(1);
+                            btAction.setBackgroundColor(getResources().getColor(R.color.primary));
+                            btAction.setText(getResources().getText(R.string.btActionConnect));
+                    }
                     foundWater(-1);
                 }
             });
@@ -102,11 +119,11 @@ public class MainActivity extends Activity {
     public void foundWater(float depth){
         if(depth == -1){
             tvWaterDepth.setEnabled(false);
-            tvWaterDepth.setText(getResources().getText(R.string.tvWaterDepth));
+            tvWaterDepth.setText(getResources().getText(R.string.tvWaterDepthNotFound));
             ivWaterFound.setImageDrawable(getResources().getDrawable(R.drawable.water_drop_inactive));
         }else{
             tvWaterDepth.setEnabled(true);
-            tvWaterDepth.setText("Tiefe: "+Math.round(depth));
+            tvWaterDepth.setText(String.format(getResources().getString(R.string.tvWaterDepthFound), depth));
             ivWaterFound.setImageDrawable(getResources().getDrawable(R.drawable.water_drop_active));
         }
     }
@@ -124,8 +141,8 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    protected void onStop(){
-        super.onStop();
+    protected void onDestroy(){
+        super.onDestroy();
 
         if(bound)
             unbindService(connection);
@@ -170,6 +187,7 @@ public class MainActivity extends Activity {
             backgroundService = binder.getService();
             backgroundService.registerObserver(observer);
             bound = true;
+
         }
 
         @Override

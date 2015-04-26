@@ -6,11 +6,11 @@ import android.graphics.Color;
  * Created by Calvin on 06.04.2015.
  */
 public enum ConnectionState{
-    DISCONNECTED(R.string.conn_disconnected, Color.BLACK),
-    PENDING(R.string.conn_pending, Color.BLACK),
-    CONNECTED(R.string.conn_connected, Color.GREEN),
-    FAILED(R.string.conn_failed, Color.RED),
-    ABORTED(R.string.conn_aborted, Color.RED);
+    DISCONNECTED(R.string.connDisconnected, R.color.primaryText),
+    PENDING(R.string.connPending, R.color.primaryText),
+    CONNECTED(R.string.connConnected, R.color.friendly),
+    FAILED(R.string.connFailed, R.color.danger),
+    ABORTED(R.string.connAborted, R.color.danger);
 
     private int  value;
     private int color;

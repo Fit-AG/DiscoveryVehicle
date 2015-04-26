@@ -1,16 +1,17 @@
 <resources>
     <string name="app_name">DiscoveryVehicle-Remote</string>
 
-    <string name="conn_disconnected">Nicht verbunden</string>
-    <string name="conn_connected">Verbunden</string>
-    <string name="conn_failed">Verbindung fehlgeschlagen!</string>
+    <string name="connDisconnected">Nicht verbunden</string>
+    <string name="connPending">Verbindung wird aufgebaut...</string>
+    <string name="connConnected">Verbunden</string>
+    <string name="connFailed">Verbindung fehlgeschlagen</string>
+    <string name="connAborted">Verbindung abgebrochen</string>
 
-    <string name="btAction_connect">Verbinden</string>
-    <string name="btAction_disconnect">Verbindung schließen</string>
+    <string name="btActionConnect">Verbinden</string>
+    <string name="btActionDisconnect">Verbindung schließen</string>
 
-    <string name="action_settings">Settings</string>
-    <string name="conn_pending">Verbindung wird aufgebaut...</string>
-    <string name="conn_aborted">Verbindung abgebrochen!</string>
+    <string name="actionSettings">Einstellungen</string>
 
-    <string name="tvWaterDepth">Kein Wasser erkannt</string>
+    <string name="tvWaterDepthNotFound">Kein Wasser erkannt</string>
+    <string name="tvWaterDepthFound">Tiefe: %1$scm</string>
 </resources>
