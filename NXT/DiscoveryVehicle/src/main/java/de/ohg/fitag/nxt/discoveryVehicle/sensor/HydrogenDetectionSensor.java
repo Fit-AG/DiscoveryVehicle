@@ -39,6 +39,15 @@ public class HydrogenDetectionSensor implements SensorConstants{
 	 * @return float found water in depth relative to {@link Configuration#MAX_DEPTH_MEASURE}, -1 if no water was found, or -2 if sensor in usage
 	 */
 	public synchronized float scan(){
+		return scan(false);
+	}
+	
+	/**
+	 * Scan underground for water by moving sensor down
+	 * @param immediate Should the sensor immediate return after scanning, sensor must be reset manually
+	 * @return float found water in depth relative to {@link Configuration#MAX_DEPTH_MEASURE}, -1 if no water was found, or -2 if sensor in usage
+	 */
+	public synchronized float scan(boolean immediate){
 		if(motor.isMoving())
 			return -2f;
 		int depth = 1;
@@ -50,7 +59,8 @@ public class HydrogenDetectionSensor implements SensorConstants{
 			}	
 			motor.rotateTo(Configuration.HYDROGEN_MOTOR_INVERT * depth);
 		}
-		reset();
+		if(!immediate)
+			reset();
 		return Configuration.HYDROGEN_MAX_DEPTH_MEASURE / (Configuration.HYDROGEN_MAX_DEPTH_ROTATION / depth);
 	}
 	
