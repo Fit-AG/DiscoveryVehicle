@@ -59,7 +59,6 @@ public class LejosBackgroundTask extends Thread implements MessageObserver, Sens
                 interrupt();
             }
         }
-        //stopSelf();
     }
 
     public float calculateRotationChange(float old_rotation, float new_rotation){
