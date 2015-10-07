@@ -30,8 +30,8 @@ public class HydrogenDetectionSensor implements SensorConstants{
 	public boolean isPowered(){
 		int value = sensor.readRawValue();
 		DiscoveryVehicle.getMonitor().log("raw: "+value);
-//		return Button.ENTER.isDown();
-		return (value < Configuration.HYDROGEN_MEASURE_TRIGGER_PRECISION);
+		return Button.ENTER.isDown();
+//		return (value < Configuration.HYDROGEN_MEASURE_TRIGGER_PRECISION);
 	}
 	
 	/**

@@ -33,7 +33,7 @@ public class Configuration {
 	public static final SensorPort SENSOR_OBJECT_DETECTION = SensorPort.S2;
 	
 	//Motor zur mechanischen Absenkung des Feuchtigkeitssensors
-	public static final NXTRegulatedMotor HYDROGEN_SENSOR_MOTOR = Motor.B;
+	public static final NXTRegulatedMotor HYDROGEN_SENSOR_MOTOR = Motor.A;
 	//Port des Feuchtigkeitssensors
 	public static final SensorPort HYDROGEN_SENSOR_PORT = SensorPort.S4;
 	
