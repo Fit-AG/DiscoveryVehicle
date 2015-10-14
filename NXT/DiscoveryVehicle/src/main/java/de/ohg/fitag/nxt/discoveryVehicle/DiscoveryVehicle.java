@@ -31,7 +31,7 @@ public class DiscoveryVehicle{
 
 	private static Monitor monitor;
 	private static CommunicationManager communicationManager;
-	private static Arbitrator arbitrator;
+	//private static Arbitrator arbitrator;
 	private static NXTConnection connection;
 	private static DifferentialPilot pilot;
 
@@ -45,21 +45,23 @@ public class DiscoveryVehicle{
     	LightSensor sensor = new LightSensor(SensorPort.S1);
     	sensor.setFloodlight(false);
     	Button.ENTER.waitForPress();
-    	sensor.calibrateHigh();
+    	sensor.calibrateLow();
     	monitor.log("Low calibrated: " + sensor.getLow());
     	Button.ENTER.waitForPress();
     	sensor.calibrateHigh();
     	monitor.log("Hight calibrated: " + sensor.getHigh());
     	
     	LightSequenceDetector lightSequencedDetector = new LightSequenceDetector(sensor);
-    	while(true){
-    		boolean[] sequence= lightSequencedDetector.getSequence();
+    	
+    	lightSequencedDetector.countLightPulses(300);
+    	/*while(true){
+    		boolean[] sequence= lightSequencedDetector.getSequence(4);
         	monitor.log("S:");
         	for(int i = 0; i < sequence.length; i++){
         		monitor.log("" + sequence[i]);
         	}
     	}
-    	
+    	*/
 //    	connection = Bluetooth.waitForConnection();
 //    	monitor.log("Connected!");
 //    	monitor.log("Waiting 5 seconds ...");

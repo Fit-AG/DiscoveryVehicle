@@ -1,6 +1,7 @@
 package de.ohg.fitag.nxt.discoveryVehicle.sensor;
 
 import de.ohg.fitag.nxt.discoveryVehicle.DiscoveryVehicle;
+import lejos.nxt.Button;
 import lejos.nxt.LightSensor;
 
 public class LightSequenceDetector{
@@ -16,13 +17,13 @@ public class LightSequenceDetector{
 		//start();
 	}
 	
-	public boolean[] getSequence(){
-		boolean[] sequence = new boolean[10];
-		for(int i=0; i < 4; i++){
+	public boolean[] getSequence(int length){
+		boolean[] sequence = new boolean[length];
+		for(int i=0; i < length; i++){
 			
 			int value = this.lightSensor.getLightValue();
 			DiscoveryVehicle.getMonitor().log("MEASURE" + value);
-			sequence[i] = value > 40 ? true : false;
+			sequence[i] = value > 40 /*? true : false*/;
 			
 			try {
 				Thread.sleep(1000);
@@ -33,13 +34,14 @@ public class LightSequenceDetector{
 		return sequence;
 	}
 	
-	//TODO may cause crash/not all func.
-	public boolean checkSequence(boolean[] sequenceToCheck, int pauseLength){
-		boolean[] sequence = this.getSequence();
+	//TODO add signal length and uncoracity
+	public boolean checkSequence(/*boolean[] sequenceToCheck, */int timeToCheck, int pauseLength){
+		boolean[] sequence = this.getSequence(timeToCheck);
 			for(int i = 0; i < sequence.length; i++){
 				if(sequence[i]){
 					for(int j = 0; j<pauseLength; j++){
 						i++;
+						if(i > sequence.length) { return false; }
 						if(!sequence[i]){ return false; }
 					}
 				if(sequence[i]){
@@ -61,4 +63,51 @@ public class LightSequenceDetector{
 //    }
     
     
+	
+	
+	//TODO Not Working
+	public void countLightPulses(int checkedLightLevel){
+		
+		DiscoveryVehicle.getMonitor().log("Counting:");
+		
+		// c is the value to log
+		int c = 0;
+		boolean lastRes = false;
+		//test if light is already on.
+		if(lightSensor.getLightValue() > checkedLightLevel){
+			c++;
+			lastRes = true;
+		}
+		DiscoveryVehicle.getMonitor().log("C: " + c);
+		
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		while(!Button.ENTER.isDown()){ //continue until button is pressed
+
+			//DiscoveryVehicle.getMonitor().log("WhileLoop:");
+			/*try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}*/
+			
+			boolean newRes = lightSensor.getLightValue() > checkedLightLevel;
+			if(newRes == !lastRes){
+				if(lastRes == false) {
+					c++;
+					DiscoveryVehicle.getMonitor().log("C: " + c);
+				}
+				lastRes = newRes;
+			}
+			
+			
+		}
+		
+	}
+	
+	
 }
