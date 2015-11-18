@@ -66,7 +66,7 @@ public class LightSequenceDetector{
 	
 	
 	//TODO Not Working
-	public void countLightPulses(int checkedLightLevel){
+	public int countLightPulses(int checkedLightLevel){
 		
 		DiscoveryVehicle.getMonitor().log("Counting:");
 		
@@ -81,22 +81,25 @@ public class LightSequenceDetector{
 		DiscoveryVehicle.getMonitor().log("C: " + c);
 		
 		try {
-			Thread.sleep(100);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+		DiscoveryVehicle.getMonitor().log("woke up1");
 		while(!Button.ENTER.isDown()){ //continue until button is pressed
 
 			//DiscoveryVehicle.getMonitor().log("WhileLoop:");
-			/*try {
-				Thread.sleep(10);
+			try {
+				Thread.sleep(1);
 			} catch (InterruptedException e) {
+				DiscoveryVehicle.getMonitor().log("InterruptedException");
 				e.printStackTrace();
-			}*/
-			
+			}
+			//DiscoveryVehicle.getMonitor().log("woke up");
 			boolean newRes = lightSensor.getLightValue() > checkedLightLevel;
+			//DiscoveryVehicle.getMonitor().log("Result: " + newRes);
 			if(newRes == !lastRes){
+				//DiscoveryVehicle.getMonitor().log("New Result");
 				if(lastRes == false) {
 					c++;
 					DiscoveryVehicle.getMonitor().log("C: " + c);
@@ -106,6 +109,7 @@ public class LightSequenceDetector{
 			
 			
 		}
+		return c;
 		
 	}
 	

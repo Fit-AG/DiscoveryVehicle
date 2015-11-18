@@ -44,16 +44,27 @@ public class DiscoveryVehicle{
     	
     	LightSensor sensor = new LightSensor(SensorPort.S1);
     	sensor.setFloodlight(false);
+    	
+    	monitor.log("Press in Dark");
     	Button.ENTER.waitForPress();
     	sensor.calibrateLow();
     	monitor.log("Low calibrated: " + sensor.getLow());
+
+    	monitor.log("Press in Light");
     	Button.ENTER.waitForPress();
     	sensor.calibrateHigh();
     	monitor.log("Hight calibrated: " + sensor.getHigh());
     	
-    	LightSequenceDetector lightSequencedDetector = new LightSequenceDetector(sensor);
+    	long timeStart = System.currentTimeMillis();
     	
-    	lightSequencedDetector.countLightPulses(300);
+    	LightSequenceDetector lightSequencedDetector = new LightSequenceDetector(sensor);
+    	int c = lightSequencedDetector.countLightPulses(10);
+    	
+    	long timeEnd = System.currentTimeMillis();
+    	float deltaTime = (float) (timeEnd - timeStart) / 1000F;
+    	monitor.log("Time: " + deltaTime + "s");
+    	monitor.log("Speed: " + c / deltaTime);
+    	
     	/*while(true){
     		boolean[] sequence= lightSequencedDetector.getSequence(4);
         	monitor.log("S:");
